@@ -68,7 +68,7 @@
             // 
             // btndownload
             // 
-            this.btndownload.Location = new System.Drawing.Point(571, 40);
+            this.btndownload.Location = new System.Drawing.Point(471, 40);
             this.btndownload.Name = "btndownload";
             this.btndownload.Size = new System.Drawing.Size(76, 26);
             this.btndownload.TabIndex = 0;
@@ -104,11 +104,11 @@
             // btnPause
             // 
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(489, 40);
+            this.btnPause.Location = new System.Drawing.Point(552, 40);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(76, 26);
+            this.btnPause.Size = new System.Drawing.Size(95, 26);
             this.btnPause.TabIndex = 5;
-            this.btnPause.Text = "Cancel";
+            this.btnPause.Text = "Pause/Resume";
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
@@ -149,7 +149,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(407, 40);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 26);
+            this.button1.Size = new System.Drawing.Size(57, 26);
             this.button1.TabIndex = 13;
             this.button1.Text = "Check..";
             this.button1.UseVisualStyleBackColor = true;
@@ -374,6 +374,7 @@
             this.list_Items.TabIndex = 17;
             this.list_Items.UseCompatibleStateImageBehavior = false;
             this.list_Items.View = System.Windows.Forms.View.Details;
+            this.list_Items.SelectedIndexChanged += new System.EventHandler(this.list_Items_SelectedIndexChanged);
             // 
             // fname
             // 

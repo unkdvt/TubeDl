@@ -102,7 +102,7 @@ namespace Ytd_Extractor
             try
             {
                 btndownload.Enabled = false;
-                btnPause.Enabled = true;
+              
 
                 var ext = video.Resolution.ToString();
                 if (ext == "0")
@@ -125,7 +125,7 @@ namespace Ytd_Extractor
                             list_Items.Items[indx].SubItems.Add("");
                         }
 
-                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + ".tubedl"));
+                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + ext));
                         ldf.Add(d);
 
 
@@ -153,7 +153,8 @@ namespace Ytd_Extractor
                         list_Items.Items[indx].SubItems.Add("");
                     }
 
-                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + ".tubedl"));
+
+                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + ext));
                     ldf.Add(d);
 
 
@@ -163,7 +164,7 @@ namespace Ytd_Extractor
                         list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
                     });
 
-                    d.eSize += (object s1, string size) => act1.Invoke(indx, 1,size);
+                    d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
                     d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
                     d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
                     d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
@@ -251,9 +252,14 @@ namespace Ytd_Extractor
 #if DEBUG
             txtlink.Text = "https://www.youtube.com/watch?v=sTAIvHEvd48";
 #endif
+
             Text = Application.ProductName + " " + Application.ProductVersion;
             btndownload.Enabled = false;
-            savePath = lblpath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            DirectoryInfo s = new DirectoryInfo(savePath = lblpath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
+            foreach (FileInfo f in s.GetFiles("*.tubedl"))
+            {
+                f.Delete();
+            }
             cmbQuality.SelectedIndex = 1;
         }
 
@@ -269,6 +275,7 @@ namespace Ytd_Extractor
         private void button1_Click(object sender, EventArgs e)
         {
             lbldownloadinfo.Text = "--/--";
+           // cmbQuality.SelectedIndex = 1;
             try
             {
                 if (string.IsNullOrWhiteSpace(txtlink.Text))
@@ -376,7 +383,18 @@ namespace Ytd_Extractor
 
         private void btnPause_Click(object sender, EventArgs e)
         {
-            webClient.CancelAsync();
+            var indx = list_Items.SelectedItems[0].Index;
+            if (btnPause.Text == "Pause")
+            {
+                ldf[indx].CancelDownload();
+                btnPause.Text = "Resume";
+
+            }
+            else if (btnPause.Text == "Resume")
+            {
+                ldf[indx].ResumeDownload();
+                btnPause.Text = "Pause";
+            }
             btnPause.Enabled = false;
             btndownload.Enabled = true;
         }
@@ -384,6 +402,36 @@ namespace Ytd_Extractor
         private void txtlink_TextChanged_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void list_Items_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (list_Items.SelectedItems.Count > 0)
+            {
+                var indx = list_Items.SelectedItems[0].Index;
+                if (list_Items.Items[indx].SubItems[4].Text == "Downloading")
+                {
+                    btnPause.Enabled = true;
+                    btnPause.Text = "Pause";
+
+                }
+                else if (list_Items.Items[indx].SubItems[4].Text == "Paused")
+                {
+                    btnPause.Enabled = true;
+                    btnPause.Text = "Resume";
+
+                }
+                else
+                {
+                    btnPause.Enabled = false;
+                    btnPause.Text = "Pause/Resume";
+                }
+            }
+            else
+            {
+                btnPause.Enabled = false;
+                btnPause.Text = "Pause/Resume";
+            }
         }
     }
 }
