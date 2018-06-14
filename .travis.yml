@@ -1,2 +1,5 @@
 language: csharp
 solution: TubeDl.sln
+install:
+  - nuget restore solution-name.sln
+  - nuget install Newtonsoft.Json -Version 11.0.2
