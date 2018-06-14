@@ -1,14 +1,16 @@
 # TubeDl
+[Latest releas 1.0.0.0-beta](https://github.com/l4km47/TubeDl/releases/tag/0.1.0.0-beta) | 
+[All Releases](https://github.com/l4km47/TubeDl/releases)
+
 [![GitHub License](https://intense-chamber-55169.herokuapp.com/license/l4km47/TubeDl.svg)](https://raw.githubusercontent.com/l4km47/TubeDl/master/LICENSE)
-[![GitHub Release](https://intense-chamber-55169.herokuapp.com/release/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/releases)
 [![Total Commits](https://intense-chamber-55169.herokuapp.com/commits/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/commits/master)
 [![Issues](https://intense-chamber-55169.herokuapp.com/issues/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/issues)
 ## Youtube video downloader
 
 ### Source 
-*[.NetFileDownloader](https://github.com/Avira/.NetFileDownloader)
+[.NetFileDownloader](https://github.com/Avira/.NetFileDownloader)
 
-*[YoutubeExtractor](https://github.com/flagbug/YoutubeExtractor)
+[YoutubeExtractor](https://github.com/flagbug/YoutubeExtractor)
 
 
 ### Release checksums 
