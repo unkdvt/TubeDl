@@ -13,7 +13,7 @@
         Flash,
         Mp4,
         WebM,
-
+        Mp3,
         /// <summary>
         /// The video type is unknown. This can occur if YoutubeExtractor is not up-to-date.
         /// </summary>

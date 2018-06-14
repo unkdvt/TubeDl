@@ -30,14 +30,12 @@
         {
             this.btndownload = new System.Windows.Forms.Button();
             this.pbdown = new System.Windows.Forms.ProgressBar();
-            this.rtlog = new System.Windows.Forms.RichTextBox();
             this.cmbQuality = new System.Windows.Forms.ComboBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btnPause = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblpath = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button1 = new System.Windows.Forms.Button();
@@ -57,15 +55,22 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.lbldownloadinfo = new System.Windows.Forms.Label();
             this.txtlink = new TextBoxWatermark.ExTextBox();
+            this.total_length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.downloaded_length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.download_speed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.list_Items = new System.Windows.Forms.ListView();
+            this.fname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.grpInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // btndownload
             // 
-            this.btndownload.Location = new System.Drawing.Point(407, 33);
+            this.btndownload.Location = new System.Drawing.Point(571, 40);
             this.btndownload.Name = "btndownload";
-            this.btndownload.Size = new System.Drawing.Size(79, 20);
+            this.btndownload.Size = new System.Drawing.Size(76, 26);
             this.btndownload.TabIndex = 0;
             this.btndownload.Text = "Download";
             this.btndownload.UseVisualStyleBackColor = true;
@@ -73,20 +78,10 @@
             // 
             // pbdown
             // 
-            this.pbdown.Location = new System.Drawing.Point(12, 38);
+            this.pbdown.Location = new System.Drawing.Point(413, 91);
             this.pbdown.Name = "pbdown";
-            this.pbdown.Size = new System.Drawing.Size(391, 10);
+            this.pbdown.Size = new System.Drawing.Size(235, 10);
             this.pbdown.TabIndex = 2;
-            // 
-            // rtlog
-            // 
-            this.rtlog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.rtlog.Location = new System.Drawing.Point(12, 205);
-            this.rtlog.Name = "rtlog";
-            this.rtlog.ReadOnly = true;
-            this.rtlog.Size = new System.Drawing.Size(476, 122);
-            this.rtlog.TabIndex = 3;
-            this.rtlog.Text = "";
             // 
             // cmbQuality
             // 
@@ -98,23 +93,20 @@
             "720p: 1280x720",
             "480p: 854x480",
             "360p: 640x360",
-            "240p: 426x240"});
-            this.cmbQuality.Location = new System.Drawing.Point(93, 74);
+            "240p: 426x240",
+            "Extract Audio"});
+            this.cmbQuality.Location = new System.Drawing.Point(407, 13);
             this.cmbQuality.Name = "cmbQuality";
-            this.cmbQuality.Size = new System.Drawing.Size(223, 21);
+            this.cmbQuality.Size = new System.Drawing.Size(240, 21);
             this.cmbQuality.TabIndex = 4;
             this.cmbQuality.TabStop = false;
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // btnPause
             // 
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(407, 54);
+            this.btnPause.Location = new System.Drawing.Point(489, 40);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(81, 21);
+            this.btnPause.Size = new System.Drawing.Size(76, 26);
             this.btnPause.TabIndex = 5;
             this.btnPause.Text = "Cancel";
             this.btnPause.UseVisualStyleBackColor = true;
@@ -122,9 +114,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(322, 55);
+            this.button4.Location = new System.Drawing.Point(324, 40);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(81, 20);
+            this.button4.Size = new System.Drawing.Size(77, 26);
             this.button4.TabIndex = 8;
             this.button4.Text = "Browse";
             this.button4.UseVisualStyleBackColor = true;
@@ -133,7 +125,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 58);
+            this.label1.Location = new System.Drawing.Point(12, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 13);
             this.label1.TabIndex = 10;
@@ -142,19 +134,10 @@
             // lblpath
             // 
             this.lblpath.AutoEllipsis = true;
-            this.lblpath.Location = new System.Drawing.Point(90, 58);
+            this.lblpath.Location = new System.Drawing.Point(90, 42);
             this.lblpath.Name = "lblpath";
             this.lblpath.Size = new System.Drawing.Size(226, 13);
             this.lblpath.TabIndex = 11;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Video Quality :";
             // 
             // saveFileDialog1
             // 
@@ -164,9 +147,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(407, 12);
+            this.button1.Location = new System.Drawing.Point(407, 40);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(81, 20);
+            this.button1.Size = new System.Drawing.Size(76, 26);
             this.button1.TabIndex = 13;
             this.button1.Text = "Check..";
             this.button1.UseVisualStyleBackColor = true;
@@ -189,13 +172,12 @@
             this.grpInfo.Controls.Add(this.label5);
             this.grpInfo.Controls.Add(this.label4);
             this.grpInfo.Controls.Add(this.label2);
-            this.grpInfo.Location = new System.Drawing.Point(15, 101);
+            this.grpInfo.Location = new System.Drawing.Point(15, 72);
             this.grpInfo.Name = "grpInfo";
-            this.grpInfo.Size = new System.Drawing.Size(471, 100);
+            this.grpInfo.Size = new System.Drawing.Size(391, 100);
             this.grpInfo.TabIndex = 14;
             this.grpInfo.TabStop = false;
             this.grpInfo.Text = "Video info";
-            this.grpInfo.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // lblaudio
             // 
@@ -238,7 +220,7 @@
             this.lbltitle.AutoEllipsis = true;
             this.lbltitle.Location = new System.Drawing.Point(101, 16);
             this.lbltitle.Name = "lbltitle";
-            this.lbltitle.Size = new System.Drawing.Size(364, 13);
+            this.lbltitle.Size = new System.Drawing.Size(284, 13);
             this.lbltitle.TabIndex = 15;
             // 
             // label12
@@ -289,7 +271,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(199, 78);
+            this.label7.Location = new System.Drawing.Point(211, 78);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 13);
             this.label7.TabIndex = 4;
@@ -300,9 +282,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(20, 78);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(66, 13);
+            this.label6.Size = new System.Drawing.Size(58, 13);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Video format";
+            this.label6.Text = "File Format";
             // 
             // label5
             // 
@@ -331,6 +313,15 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Title";
             // 
+            // lbldownloadinfo
+            // 
+            this.lbldownloadinfo.AutoSize = true;
+            this.lbldownloadinfo.Location = new System.Drawing.Point(624, 72);
+            this.lbldownloadinfo.Name = "lbldownloadinfo";
+            this.lbldownloadinfo.Size = new System.Drawing.Size(24, 13);
+            this.lbldownloadinfo.TabIndex = 16;
+            this.lbldownloadinfo.Text = "--/--";
+            // 
             // txtlink
             // 
             this.txtlink.Hint = "Past Youtube Video address";
@@ -340,23 +331,73 @@
             this.txtlink.TabIndex = 15;
             this.txtlink.TextChanged += new System.EventHandler(this.txtlink_TextChanged_1);
             // 
+            // total_length
+            // 
+            this.total_length.Text = "Total Length";
+            this.total_length.Width = 80;
+            // 
+            // downloaded_length
+            // 
+            this.downloaded_length.Text = "Downloaded Length";
+            this.downloaded_length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.downloaded_length.Width = 120;
+            // 
+            // download_speed
+            // 
+            this.download_speed.Text = "Download Speed";
+            this.download_speed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.download_speed.Width = 100;
+            // 
+            // status
+            // 
+            this.status.Text = "Status";
+            this.status.Width = 95;
+            // 
+            // list_Items
+            // 
+            this.list_Items.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.list_Items.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.fname,
+            this.total_length,
+            this.downloaded_length,
+            this.download_speed,
+            this.status});
+            this.list_Items.FullRowSelect = true;
+            this.list_Items.GridLines = true;
+            this.list_Items.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.list_Items.HideSelection = false;
+            this.list_Items.Location = new System.Drawing.Point(15, 178);
+            this.list_Items.Name = "list_Items";
+            this.list_Items.Size = new System.Drawing.Size(635, 240);
+            this.list_Items.TabIndex = 17;
+            this.list_Items.UseCompatibleStateImageBehavior = false;
+            this.list_Items.View = System.Windows.Forms.View.Details;
+            // 
+            // fname
+            // 
+            this.fname.Text = "File Name";
+            this.fname.Width = 230;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 339);
+            this.ClientSize = new System.Drawing.Size(660, 430);
+            this.Controls.Add(this.list_Items);
+            this.Controls.Add(this.lbldownloadinfo);
             this.Controls.Add(this.txtlink);
             this.Controls.Add(this.grpInfo);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.lblpath);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.cmbQuality);
-            this.Controls.Add(this.rtlog);
             this.Controls.Add(this.pbdown);
             this.Controls.Add(this.btndownload);
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "TubeDl";
             this.Load += new System.EventHandler(this.Main_Load);
@@ -371,14 +412,12 @@
 
         private System.Windows.Forms.Button btndownload;
         private System.Windows.Forms.ProgressBar pbdown;
-        private System.Windows.Forms.RichTextBox rtlog;
         private System.Windows.Forms.ComboBox cmbQuality;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblpath;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button1;
@@ -399,6 +438,14 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private TextBoxWatermark.ExTextBox txtlink;
+        private System.Windows.Forms.Label lbldownloadinfo;
+        private System.Windows.Forms.ColumnHeader total_length;
+        private System.Windows.Forms.ColumnHeader downloaded_length;
+        private System.Windows.Forms.ColumnHeader download_speed;
+        private System.Windows.Forms.ColumnHeader status;
+
+        private System.Windows.Forms.ListView list_Items;
+        private System.Windows.Forms.ColumnHeader fname;
     }
 }
 

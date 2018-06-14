@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-namespace View.Size
+﻿namespace View.Size
 {
-   public static class getlength
+    public static class getlength
     {
   
         public static string GetLengthString(double Length)
@@ -30,6 +23,30 @@ namespace View.Size
             {
                 L /= 1024;
                 Ext = "GB";
+            }
+
+            return L.ToString("N1") + " " + Ext;
+        }
+        public static string InternetSpeed(double Length)
+        {
+            string Ext = "B/s";
+            double L = Length;
+            if (L > 1024)
+            {
+                L /= 1024;
+                Ext = "kB/s";
+            }
+
+            if (L > 1024)
+            {
+                L /= 1024;
+                Ext = "MB/s";
+            }
+
+            if (L > 1024)
+            {
+                L /= 1024;
+                Ext = "GB/s";
             }
 
             return L.ToString("N1") + " " + Ext;

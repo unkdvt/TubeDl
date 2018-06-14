@@ -33,9 +33,9 @@ namespace YoutubeExtractor
             new VideoInfo(102, VideoType.WebM, 720, true, AudioType.Vorbis, 192, AdaptiveType.None),
 
             /* Adaptive (aka DASH) - Video */
-            new VideoInfo(133, VideoType.Mp4, 240, false, AudioType.Aac, 192, AdaptiveType.Video),
-            new VideoInfo(134, VideoType.Mp4, 360, false, AudioType.Aac, 129, AdaptiveType.Video),
-            new VideoInfo(135, VideoType.Mp4, 480, false, AudioType.Aac, 192, AdaptiveType.Video),
+            new VideoInfo(133, VideoType.Mp4, 240, false, AudioType.Aac, 96, AdaptiveType.Video),
+            new VideoInfo(134, VideoType.Mp4, 360, false, AudioType.Aac, 96, AdaptiveType.Video),
+            new VideoInfo(135, VideoType.Mp4, 480, false, AudioType.Aac, 128, AdaptiveType.Video),
             new VideoInfo(136, VideoType.Mp4, 720, false, AudioType.Aac, 192, AdaptiveType.Video),
             //
 

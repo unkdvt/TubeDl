@@ -53,24 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Downloader\CompletedState.cs" />
-    <Compile Include="Downloader\DownloadFileCompletedArgs.cs" />
-    <Compile Include="Downloader\DownloadFileProgressChangedArgs.cs" />
-    <Compile Include="Downloader\DownloadWebClient.cs" />
-    <Compile Include="Downloader\EventHandlerExtensions.cs" />
-    <Compile Include="Downloader\FileDownloader.cs" />
-    <Compile Include="Downloader\FileHelpers.cs" />
-    <Compile Include="Downloader\IDnsFallbackResolver.cs" />
-    <Compile Include="Downloader\IDownloadCache.cs" />
-    <Compile Include="Downloader\IFileDownloader.cs" />
-    <Compile Include="Downloader\IStreamCopyWorker.cs" />
-    <Compile Include="Downloader\Logging\ILogger.cs" />
-    <Compile Include="Downloader\Logging\LoggerFacade.cs" />
-    <Compile Include="Downloader\DownloadCache.cs" />
-    <Compile Include="Downloader\StreamCopyCompleteEventArgs.cs" />
-    <Compile Include="Downloader\StreamCopyProgressEventArgs.cs" />
-    <Compile Include="Downloader\StreamCopyWorker.cs" />
-    <Compile Include="Downloader\WebHeaderCollectionExtensions.cs" />
+    <Compile Include="downloadFile.cs" />
     <Compile Include="ExTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

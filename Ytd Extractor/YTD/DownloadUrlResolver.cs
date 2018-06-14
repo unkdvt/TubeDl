@@ -121,14 +121,14 @@ namespace YoutubeExtractor
             return null; // Will never happen, but the compiler requires it
         }
 
-//#if PORTABLE
+        //#if PORTABLE
 
         public static System.Threading.Tasks.Task<IEnumerable<VideoInfo>> GetDownloadUrlsAsync(string videoUrl, bool decryptSignature = true)
         {
             return System.Threading.Tasks.Task.Run(() => GetDownloadUrls(videoUrl, decryptSignature));
         }
 
-//#endif
+        //#endif
 
         /// <summary>
         /// Normalizes the given YouTube URL to the format http://youtube.com/watch?v={youtube-id}
@@ -217,7 +217,7 @@ namespace YoutubeExtractor
             // bugfix: adaptive_fmts is missing in some videos, use url_encoded_fmt_stream_map instead
             if (streamMap == null)
             {
-              streamMap = json["args"]["url_encoded_fmt_stream_map"];
+                streamMap = json["args"]["url_encoded_fmt_stream_map"];
             }
 
             return streamMap.ToString();
@@ -321,7 +321,7 @@ namespace YoutubeExtractor
         {
             throw new YoutubeParseException("Could not parse the Youtube page for URL " + videoUrl + "\n" +
                                             "This may be due to a change of the Youtube page structure.\n" +
-                                            "Please report this bug at www.github.com/flagbug/YoutubeExtractor/issues", innerException);
+                                            "Please report this bug at https://github.com/l4km47/TubeDl/issues", innerException);
         }
 
         private class ExtractionInfo
