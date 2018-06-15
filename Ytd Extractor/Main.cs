@@ -19,47 +19,6 @@ namespace Ytd_Extractor
             InitializeComponent();
             System.Net.ServicePointManager.DefaultConnectionLimit = 100;
         }
-        private static void DownloadAudio(IEnumerable<VideoInfo> videoInfos)
-        {
-            /*
-             * We want the first extractable video with the highest audio quality.
-             */
-            VideoInfo video = videoInfos
-                .Where(info => info.CanExtractAudio)
-                .OrderByDescending(info => info.AudioBitrate)
-                .First();
-
-            /*
-             * If the video has a decrypted signature, decipher it
-             */
-            if (video.RequiresDecryption)
-            {
-                DownloadUrlResolver.DecryptDownloadUrl(video);
-            }
-
-            /*
-             * Create the audio downloader.
-             * The first argument is the video where the audio should be extracted from.
-             * The second argument is the path to save the audio file.
-             */
-
-            var audioDownloader = new AudioDownloader(video,
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                RemoveIllegalPathCharacters(video.Title) + video.AudioExtension));
-
-            // Register the progress events. We treat the download progress as 85% of the progress
-            // and the extraction progress only as 15% of the progress, because the download will
-            // take much longer than the audio extraction.
-            audioDownloader.DownloadProgressChanged += (sender, args) => Console.WriteLine(args.ProgressPercentage * 0.85);
-            audioDownloader.AudioExtractionProgressChanged += (sender, args) => Console.WriteLine(85 + args.ProgressPercentage * 0.15);
-
-            /*
-             * Execute the audio downloader.
-             * For GUI applications note, that this method runs synchronously.
-             */
-            audioDownloader.Execute();
-        }
-
 
         string url;
         string name;
@@ -99,36 +58,47 @@ namespace Ytd_Extractor
              * Execute the video downloader.
              * For GUI applications note, that this method runs synchronously.
              */
-            try
+            //try
+            //{
+            btndownload.Enabled = false;
+
+
+            var ext = video.Resolution.ToString();
+            if (ext == "0")
+                ext = ".mp3";
+            else
+                ext = ".Mp4";
+            bool found = true;
+
+            ListViewItem item = list_Items.FindItemWithText(name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()));
+
+            if (item != null)
+                MessageBox.Show("Video Already in downloading", Text, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            // video exists           
+
+            else
             {
-                btndownload.Enabled = false;
-              
 
-                var ext = video.Resolution.ToString();
-                if (ext == "0")
-                    ext = ".mp3";
-                else
-                    ext = ".Mp4";
+                // doesn't exist 
 
-                if (File.Exists(Path.Combine(savePath, name + ext)))
+
+                if (File.Exists(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext)))
                 {
-                    if (MessageBox.Show("File Already exist, Replace?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show("File Already exist, Replace?", Text,
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        File.Delete(Path.Combine(savePath, name + ext));
-
-                        // DownloadFile(url, Path.Combine(savePath, name + ".tubedl"));
+                        File.Delete(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext));
 
                         int indx = list_Items.Items.Count;
-                        list_Items.Items.Add(name);
+                        list_Items.Items.Add(name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()));
                         for (int i = 1; i < 6; i++)
                         {
                             list_Items.Items[indx].SubItems.Add("");
                         }
 
-                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + ext));
+                        DownloadHelper.downloadFile d =
+                            new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext));
                         ldf.Add(d);
-
-
 
                         Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
                         { list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString())); });
@@ -147,17 +117,14 @@ namespace Ytd_Extractor
                 else
                 {
                     int indx = list_Items.Items.Count;
-                    list_Items.Items.Add(name);
+                    list_Items.Items.Add(name + " "+ (video.Resolution == 0 ? ext : video.Resolution.ToString()));
                     for (int i = 1; i < 6; i++)
                     {
                         list_Items.Items[indx].SubItems.Add("");
                     }
 
-
-                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + ext));
+                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext));
                     ldf.Add(d);
-
-
 
                     Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
                     {
@@ -169,15 +136,15 @@ namespace Ytd_Extractor
                     d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
                     d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                 }
-
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                btndownload.Enabled = true;
-                btnPause.Enabled = false;
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //    btndownload.Enabled = true;
+            //    btnPause.Enabled = false;
 
-            }
+            //}
 
         }
 
@@ -211,13 +178,13 @@ namespace Ytd_Extractor
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             // Calculate download speed and output it to labelSpeed.
-            lbldownloadinfo.Text = string.Format("{0} kb/s | {1}% | {2} MB's / {3} MB's",
-                (e.BytesReceived / 1024d / sw.Elapsed.TotalSeconds).ToString("0.00"), e.ProgressPercentage,
-                View.Size.getlength.GetLengthString(Math.Round(Convert.ToSingle(e.BytesReceived))),
-                View.Size.getlength.GetLengthString(Math.Round(Convert.ToSingle(e.TotalBytesToReceive))));
+            //   lbldownloadinfo.Text = string.Format("{0} kb/s | {1}% | {2} MB's / {3} MB's",
+            //      (e.BytesReceived / 1024d / sw.Elapsed.TotalSeconds).ToString("0.00"), e.ProgressPercentage,
+            ///     View.Size.getlength.GetLengthString(Math.Round(Convert.ToSingle(e.BytesReceived))),
+            //     View.Size.getlength.GetLengthString(Math.Round(Convert.ToSingle(e.TotalBytesToReceive))));
 
             // Update the progressbar percentage only when the value is not the same.
-            pbdown.Value = e.ProgressPercentage;
+            //   pbdown.Value = e.ProgressPercentage;
 
         }
 
@@ -231,14 +198,14 @@ namespace Ytd_Extractor
             {
                 btndownload.Enabled = true;
                 btnPause.Enabled = false;
-                lbldownloadinfo.Text = "Download Cancelled!";
+                //   lbldownloadinfo.Text = "Download Cancelled!";
             }
             else
             {
 
                 btndownload.Enabled = true;
                 btnPause.Enabled = false;
-                lbldownloadinfo.Text = "--/--";
+                //   lbldownloadinfo.Text = "--/--";
                 var ext = video.Resolution.ToString();
                 if (ext == "0")
                     File.Move(Path.Combine(savePath, name + ".tubedl"), Path.Combine(savePath, name + ".Mp3"));
@@ -252,7 +219,7 @@ namespace Ytd_Extractor
 #if DEBUG
             txtlink.Text = "https://www.youtube.com/watch?v=sTAIvHEvd48";
 #endif
-
+            backgroundWorker1.RunWorkerAsync();
             Text = Application.ProductName + " " + Application.ProductVersion;
             btndownload.Enabled = false;
             DirectoryInfo s = new DirectoryInfo(savePath = lblpath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
@@ -274,8 +241,8 @@ namespace Ytd_Extractor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            lbldownloadinfo.Text = "--/--";
-           // cmbQuality.SelectedIndex = 1;
+            //  lbldownloadinfo.Text = "--/--";
+            // cmbQuality.SelectedIndex = 1;
             try
             {
                 if (string.IsNullOrWhiteSpace(txtlink.Text))
@@ -285,7 +252,7 @@ namespace Ytd_Extractor
                 }
                 else
                 {
-                    pbdown.Value = 0;
+                    //    pbdown.Value = 0;
                     // Our test youtube link
                     string link = txtlink.Text.Trim();
 
@@ -372,7 +339,7 @@ namespace Ytd_Extractor
             catch (YoutubeParseException ex)
             {
                 btndownload.Enabled = false;
-               if( MessageBox.Show("Error while prase URL" + txtlink, Text, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+                if (MessageBox.Show("Error while prase URL" + txtlink, Text, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
                 {
                     button1_Click(sender, e);
                 }
@@ -435,6 +402,20 @@ namespace Ytd_Extractor
                 btnPause.Enabled = false;
                 btnPause.Text = "Pause/Resume";
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            txtlink.Clear();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (list_Items.Items.Count > 0)
+                foreach (ListViewItem l in list_Items.Items)
+                {
+                    list_Items.Invoke(new Action(() => list_Items.Items[l.Index].SubItems[4].BackColor = System.Drawing.Color.Green));
+                }
         }
     }
 }
