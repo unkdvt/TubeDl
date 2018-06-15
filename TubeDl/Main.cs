@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using YoutubeExtractor;
 
@@ -24,7 +26,6 @@ namespace TubeDl
         string name;
         string savePath;
         VideoInfo video;
-        WebClient webClient;               // Our WebClient that will be doing the downloading for us
         Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
 
         List<DownloadHelper.downloadFile> ldf = new List<DownloadHelper.downloadFile>();
@@ -68,7 +69,6 @@ namespace TubeDl
                     ext = ".mp3";
                 else
                     ext = ".Mp4";
-                bool found = true;
 
                 ListViewItem item = list_Items.FindItemWithText(name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()));
 
@@ -101,7 +101,10 @@ namespace TubeDl
                             ldf.Add(d);
 
                             Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                            { list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString())); });
+                            {
+                                list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
+
+                            });
 
                             d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
                             d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
@@ -129,6 +132,9 @@ namespace TubeDl
                         Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
                         {
                             list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
+
+
+
                         });
 
                         d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
@@ -147,6 +153,9 @@ namespace TubeDl
             }
 
         }
+
+
+
 
         /*
         public void DownloadFile(string urlAddress, string location)
@@ -217,9 +226,10 @@ namespace TubeDl
         private void Main_Load(object sender, EventArgs e)
         {
 #if DEBUG
-            txtlink.Text = "https://www.youtube.com/watch?v=sTAIvHEvd48";
+            txtlink.Text = "https://www.youtube.com/watch?v=xsXectQvo6o";
 #endif
-            backgroundWorker1.RunWorkerAsync();
+            Activate();
+            backgroundWorker1.RunWorkerAsync(list_Items);
             Text = Application.ProductName + " " + Application.ProductVersion;
             btndownload.Enabled = false;
             DirectoryInfo s = new DirectoryInfo(savePath = lblpath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
@@ -365,7 +375,7 @@ namespace TubeDl
                 ldf[indx].ResumeDownload();
                 btnPause.Text = "Pause";
             }
-            btnPause.Enabled = false;
+
             btndownload.Enabled = true;
         }
 
@@ -385,6 +395,7 @@ namespace TubeDl
                     btnPause.Text = "Pause";
 
                 }
+
                 else if (list_Items.Items[indx].SubItems[4].Text == "Paused")
                 {
                     btnPause.Enabled = true;
@@ -396,6 +407,13 @@ namespace TubeDl
                     btnPause.Enabled = false;
                     btnPause.Text = "Pause/Resume";
                 }
+
+                if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed")
+                    btncle.Enabled = true;
+                else if (list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+                    btncle.Enabled = true;
+                else
+                    btncle.Enabled = false;
             }
             else
             {
@@ -409,13 +427,55 @@ namespace TubeDl
             txtlink.Clear();
         }
 
+        bool done = false;
+        ListView lst;
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (list_Items.Items.Count > 0)
-                foreach (ListViewItem l in list_Items.Items)
+            try
+            {
+                BeginInvoke((MethodInvoker)delegate
                 {
-                    list_Items.Invoke(new Action(() => list_Items.Items[l.Index].SubItems[4].BackColor = System.Drawing.Color.Green));
-                }
+                   
+                    if (list_Items.Items.Count > 0)
+                        foreach (ListViewItem items in list_Items.Items)
+                        {
+                            done = items.SubItems[4].Text == "Completed";
+                            Invoke(new Action(() => items.BackColor = done ? Color.Lime : System.Drawing.SystemColors.Window ));
+
+                        }
+                    
+                });
+            }
+            catch (Exception wx)
+            {
+                MessageBox.Show(wx.Message + "\n" + wx.StackTrace);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var ext = video.Resolution.ToString();
+            if (ext == "0")
+                ext = ".mp3";
+            else
+                ext = ".Mp4";
+
+            if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed")
+                list_Items.SelectedItems[0].Remove();
+
+            else if (list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+            {
+                ldf.RemoveAll(a => a.DownloadState == "Paused");
+                File.Delete(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()) + ext));
+                list_Items.SelectedItems[0].Remove();
+            }
+
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            backgroundWorker1.RunWorkerAsync();
         }
     }
 }
