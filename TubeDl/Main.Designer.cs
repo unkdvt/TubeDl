@@ -1,4 +1,4 @@
-﻿namespace Ytd_Extractor
+﻿namespace TubeDl
 {
     partial class Main
     {
@@ -61,6 +61,7 @@
             this.list_Items = new System.Windows.Forms.ListView();
             this.fname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
+            this.btncle = new System.Windows.Forms.Button();
             this.txtlink = new TextBoxWatermark.ExTextBox();
             this.grpInfo.SuspendLayout();
             this.SuspendLayout();
@@ -100,6 +101,7 @@
             this.backgroundWorker1.WorkerReportsProgress = true;
             this.backgroundWorker1.WorkerSupportsCancellation = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // btnPause
             // 
@@ -345,6 +347,7 @@
             this.list_Items.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.list_Items.BackColor = System.Drawing.SystemColors.Window;
             this.list_Items.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.fname,
             this.total_length,
@@ -381,6 +384,20 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // btncle
+            // 
+            this.btncle.AutoEllipsis = true;
+            this.btncle.Enabled = false;
+            this.btncle.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btncle.Location = new System.Drawing.Point(622, 181);
+            this.btncle.Name = "btncle";
+            this.btncle.Size = new System.Drawing.Size(25, 21);
+            this.btncle.TabIndex = 19;
+            this.btncle.Text = "x";
+            this.btncle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btncle.UseVisualStyleBackColor = true;
+            this.btncle.Click += new System.EventHandler(this.button3_Click);
+            // 
             // txtlink
             // 
             this.txtlink.Hint = "Past Youtube Video address";
@@ -395,6 +412,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 430);
+            this.Controls.Add(this.btncle);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.list_Items);
             this.Controls.Add(this.txtlink);
@@ -454,6 +472,7 @@
         private System.Windows.Forms.ListView list_Items;
         private System.Windows.Forms.ColumnHeader fname;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btncle;
     }
 }
 

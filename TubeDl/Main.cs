@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using YoutubeExtractor;
 
-namespace Ytd_Extractor
+namespace TubeDl
 {
     public partial class Main : Form
     {
@@ -24,7 +26,6 @@ namespace Ytd_Extractor
         string name;
         string savePath;
         VideoInfo video;
-        WebClient webClient;               // Our WebClient that will be doing the downloading for us
         Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
 
         List<DownloadHelper.downloadFile> ldf = new List<DownloadHelper.downloadFile>();
@@ -58,97 +59,105 @@ namespace Ytd_Extractor
              * Execute the video downloader.
              * For GUI applications note, that this method runs synchronously.
              */
-            //try
-            //{
-            btndownload.Enabled = false;
-
-
-            var ext = video.Resolution.ToString();
-            if (ext == "0")
-                ext = ".mp3";
-            else
-                ext = ".Mp4";
-            bool found = true;
-
-            ListViewItem item = list_Items.FindItemWithText(name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()));
-
-            if (item != null)
-                MessageBox.Show("Video Already in downloading", Text, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-            // video exists           
-
-            else
+            try
             {
+                btndownload.Enabled = false;
 
-                // doesn't exist 
 
+                var ext = video.Resolution.ToString();
+                if (ext == "0")
+                    ext = ".mp3";
+                else
+                    ext = ".Mp4";
 
-                if (File.Exists(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext)))
+                ListViewItem item = list_Items.FindItemWithText(name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()));
+
+                if (item != null)
+                    MessageBox.Show("Video Already in downloading", Text, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                // video exists           
+
+                else
                 {
-                    if (MessageBox.Show("File Already exist, Replace?", Text,
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        File.Delete(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext));
 
+                    // doesn't exist 
+
+
+                    if (File.Exists(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()) + ext)))
+                    {
+                        if (MessageBox.Show("File Already exist, Replace?", Text,
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            File.Delete(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()) + ext));
+
+                            int indx = list_Items.Items.Count;
+                            list_Items.Items.Add(name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()));
+                            for (int i = 1; i < 6; i++)
+                            {
+                                list_Items.Items[indx].SubItems.Add("");
+                            }
+
+                            DownloadHelper.downloadFile d =
+                                new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()) + ext));
+                            ldf.Add(d);
+
+                            Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
+                            {
+                                list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
+
+                            });
+
+                            d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
+                            d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
+                            d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
+                            d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
+                        }
+                        else
+                        {
+                            btndownload.Enabled = true;
+                            btnPause.Enabled = false;
+                        }
+                    }
+                    else
+                    {
                         int indx = list_Items.Items.Count;
-                        list_Items.Items.Add(name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()));
+                        list_Items.Items.Add(name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()));
                         for (int i = 1; i < 6; i++)
                         {
                             list_Items.Items[indx].SubItems.Add("");
                         }
 
-                        DownloadHelper.downloadFile d =
-                            new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext));
+                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()) + ext));
                         ldf.Add(d);
 
                         Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                        { list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString())); });
+                        {
+                            list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
+
+
+
+                        });
 
                         d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
                         d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
                         d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
                         d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                     }
-                    else
-                    {
-                        btndownload.Enabled = true;
-                        btnPause.Enabled = false;
-                    }
-                }
-                else
-                {
-                    int indx = list_Items.Items.Count;
-                    list_Items.Items.Add(name + " "+ (video.Resolution == 0 ? ext : video.Resolution.ToString()));
-                    for (int i = 1; i < 6; i++)
-                    {
-                        list_Items.Items[indx].SubItems.Add("");
-                    }
-
-                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(url, Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext : video.Resolution.ToString()) + ext));
-                    ldf.Add(d);
-
-                    Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                    {
-                        list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
-                    });
-
-                    d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
-                    d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                    d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
-                    d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                 }
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //    btndownload.Enabled = true;
-            //    btnPause.Enabled = false;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                btndownload.Enabled = true;
+                btnPause.Enabled = false;
 
-            //}
+            }
 
         }
 
 
+
+
+        /*
         public void DownloadFile(string urlAddress, string location)
         {
             using (webClient = new WebClient())
@@ -213,13 +222,14 @@ namespace Ytd_Extractor
                     File.Move(Path.Combine(savePath, name + ".tubedl"), Path.Combine(savePath, name + video.VideoExtension));
             }
         }
-
+        */
         private void Main_Load(object sender, EventArgs e)
         {
 #if DEBUG
-            txtlink.Text = "https://www.youtube.com/watch?v=sTAIvHEvd48";
+            txtlink.Text = "https://www.youtube.com/watch?v=xsXectQvo6o";
 #endif
-            backgroundWorker1.RunWorkerAsync();
+            Activate();
+            backgroundWorker1.RunWorkerAsync(list_Items);
             Text = Application.ProductName + " " + Application.ProductVersion;
             btndownload.Enabled = false;
             DirectoryInfo s = new DirectoryInfo(savePath = lblpath.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
@@ -331,7 +341,7 @@ namespace Ytd_Extractor
                        RemoveIllegalPathCharacters(video.Title);
                     btndownload.Enabled = true;
 #if DEBUG
-                    MessageBox.Show(url + "\n" + savePath + "\n" + name);
+                    //     MessageBox.Show(url + "\n" + savePath + "\n" + name);
 
 #endif
                 }
@@ -365,7 +375,7 @@ namespace Ytd_Extractor
                 ldf[indx].ResumeDownload();
                 btnPause.Text = "Pause";
             }
-            btnPause.Enabled = false;
+
             btndownload.Enabled = true;
         }
 
@@ -385,6 +395,7 @@ namespace Ytd_Extractor
                     btnPause.Text = "Pause";
 
                 }
+
                 else if (list_Items.Items[indx].SubItems[4].Text == "Paused")
                 {
                     btnPause.Enabled = true;
@@ -396,6 +407,13 @@ namespace Ytd_Extractor
                     btnPause.Enabled = false;
                     btnPause.Text = "Pause/Resume";
                 }
+
+                if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed")
+                    btncle.Enabled = true;
+                else if (list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+                    btncle.Enabled = true;
+                else
+                    btncle.Enabled = false;
             }
             else
             {
@@ -409,13 +427,55 @@ namespace Ytd_Extractor
             txtlink.Clear();
         }
 
+        bool done = false;
+        ListView lst;
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (list_Items.Items.Count > 0)
-                foreach (ListViewItem l in list_Items.Items)
+            try
+            {
+                BeginInvoke((MethodInvoker)delegate
                 {
-                    list_Items.Invoke(new Action(() => list_Items.Items[l.Index].SubItems[4].BackColor = System.Drawing.Color.Green));
-                }
+                   
+                    if (list_Items.Items.Count > 0)
+                        foreach (ListViewItem items in list_Items.Items)
+                        {
+                            done = items.SubItems[4].Text == "Completed";
+                            Invoke(new Action(() => items.BackColor = done ? Color.Lime : System.Drawing.SystemColors.Window ));
+
+                        }
+                    
+                });
+            }
+            catch (Exception wx)
+            {
+                MessageBox.Show(wx.Message + "\n" + wx.StackTrace);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var ext = video.Resolution.ToString();
+            if (ext == "0")
+                ext = ".mp3";
+            else
+                ext = ".Mp4";
+
+            if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed")
+                list_Items.SelectedItems[0].Remove();
+
+            else if (list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+            {
+                ldf.RemoveAll(a => a.DownloadState == "Paused");
+                File.Delete(Path.Combine(savePath, name + " " + (video.Resolution == 0 ? ext.Replace(".", "") : video.Resolution.ToString()) + ext));
+                list_Items.SelectedItems[0].Remove();
+            }
+
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            backgroundWorker1.RunWorkerAsync();
         }
     }
 }
