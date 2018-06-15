@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btndownload = new System.Windows.Forms.Button();
-            this.pbdown = new System.Windows.Forms.ProgressBar();
             this.cmbQuality = new System.Windows.Forms.ComboBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.btnPause = new System.Windows.Forms.Button();
@@ -55,7 +54,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.lbldownloadinfo = new System.Windows.Forms.Label();
             this.txtlink = new TextBoxWatermark.ExTextBox();
             this.total_length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.downloaded_length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -75,13 +73,6 @@
             this.btndownload.Text = "Download";
             this.btndownload.UseVisualStyleBackColor = true;
             this.btndownload.Click += new System.EventHandler(this.btndownload_Click);
-            // 
-            // pbdown
-            // 
-            this.pbdown.Location = new System.Drawing.Point(413, 91);
-            this.pbdown.Name = "pbdown";
-            this.pbdown.Size = new System.Drawing.Size(235, 10);
-            this.pbdown.TabIndex = 2;
             // 
             // cmbQuality
             // 
@@ -151,7 +142,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(57, 26);
             this.button1.TabIndex = 13;
-            this.button1.Text = "Check..";
+            this.button1.Text = "Catch";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -174,7 +165,7 @@
             this.grpInfo.Controls.Add(this.label2);
             this.grpInfo.Location = new System.Drawing.Point(15, 72);
             this.grpInfo.Name = "grpInfo";
-            this.grpInfo.Size = new System.Drawing.Size(391, 100);
+            this.grpInfo.Size = new System.Drawing.Size(632, 100);
             this.grpInfo.TabIndex = 14;
             this.grpInfo.TabStop = false;
             this.grpInfo.Text = "Video info";
@@ -220,7 +211,7 @@
             this.lbltitle.AutoEllipsis = true;
             this.lbltitle.Location = new System.Drawing.Point(101, 16);
             this.lbltitle.Name = "lbltitle";
-            this.lbltitle.Size = new System.Drawing.Size(284, 13);
+            this.lbltitle.Size = new System.Drawing.Size(525, 13);
             this.lbltitle.TabIndex = 15;
             // 
             // label12
@@ -313,15 +304,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Title";
             // 
-            // lbldownloadinfo
-            // 
-            this.lbldownloadinfo.AutoSize = true;
-            this.lbldownloadinfo.Location = new System.Drawing.Point(624, 72);
-            this.lbldownloadinfo.Name = "lbldownloadinfo";
-            this.lbldownloadinfo.Size = new System.Drawing.Size(24, 13);
-            this.lbldownloadinfo.TabIndex = 16;
-            this.lbldownloadinfo.Text = "--/--";
-            // 
             // txtlink
             // 
             this.txtlink.Hint = "Past Youtube Video address";
@@ -387,7 +369,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 430);
             this.Controls.Add(this.list_Items);
-            this.Controls.Add(this.lbldownloadinfo);
             this.Controls.Add(this.txtlink);
             this.Controls.Add(this.grpInfo);
             this.Controls.Add(this.button1);
@@ -396,7 +377,6 @@
             this.Controls.Add(this.button4);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.cmbQuality);
-            this.Controls.Add(this.pbdown);
             this.Controls.Add(this.btndownload);
             this.MaximizeBox = false;
             this.Name = "Main";
@@ -412,7 +392,6 @@
         #endregion
 
         private System.Windows.Forms.Button btndownload;
-        private System.Windows.Forms.ProgressBar pbdown;
         private System.Windows.Forms.ComboBox cmbQuality;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button btnPause;
@@ -439,7 +418,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private TextBoxWatermark.ExTextBox txtlink;
-        private System.Windows.Forms.Label lbldownloadinfo;
         private System.Windows.Forms.ColumnHeader total_length;
         private System.Windows.Forms.ColumnHeader downloaded_length;
         private System.Windows.Forms.ColumnHeader download_speed;

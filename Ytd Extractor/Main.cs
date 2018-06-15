@@ -372,7 +372,10 @@ namespace Ytd_Extractor
             catch (YoutubeParseException ex)
             {
                 btndownload.Enabled = false;
-                MessageBox.Show("Error while prase URL" + txtlink, Text, MessageBoxButtons.RetryCancel);
+               if( MessageBox.Show("Error while prase URL" + txtlink, Text, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+                {
+                    button1_Click(sender, e);
+                }
             }
             catch (Exception ex)
             {
