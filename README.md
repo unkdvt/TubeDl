@@ -2,7 +2,11 @@
 [Latest releas 1.0.0.0-beta](https://github.com/l4km47/TubeDl/releases/tag/0.1.0.0-beta) | 
 [All Releases](https://github.com/l4km47/TubeDl/releases)
 
+##### Dev Branch
+
 [![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=dev)](https://travis-ci.org/l4km47/TubeDl)
+
+#### Master Branch
 
 [![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=master)](https://travis-ci.org/l4km47/TubeDl)
 
