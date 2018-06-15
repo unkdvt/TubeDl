@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Ytd_Extractor
+namespace TubeDl
 {
     static class Program
     {

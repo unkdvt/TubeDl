@@ -1,4 +1,4 @@
-﻿namespace Ytd_Extractor
+﻿namespace TubeDl
 {
     partial class Main
     {
