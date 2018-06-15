@@ -1,0 +1,6 @@
+language: csharp
+solution: TubeDl.sln
+install:
+  - curl -L -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+  - mono nuget.exe install Newtonsoft.Json -Version 11.0.2
+ 

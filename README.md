@@ -2,13 +2,14 @@
 [Latest releas 1.0.0.0-beta](https://github.com/l4km47/TubeDl/releases/tag/0.1.0.0-beta) | 
 [All Releases](https://github.com/l4km47/TubeDl/releases)
 
+[![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=master)](https://travis-ci.org/l4km47/TubeDl)
+
 [![GitHub License](https://intense-chamber-55169.herokuapp.com/license/l4km47/TubeDl.svg)](https://raw.githubusercontent.com/l4km47/TubeDl/master/LICENSE)
 [![Total Commits](https://intense-chamber-55169.herokuapp.com/commits/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/commits/master)
 [![Issues](https://intense-chamber-55169.herokuapp.com/issues/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/issues)
 ## Youtube video downloader
 
 ### Source 
-[.NetFileDownloader](https://github.com/Avira/.NetFileDownloader)
 
 [YoutubeExtractor](https://github.com/flagbug/YoutubeExtractor)
 
