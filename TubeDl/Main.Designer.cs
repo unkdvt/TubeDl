@@ -62,6 +62,8 @@
             this.fname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
             this.btncle = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.txtlink = new TextBoxWatermark.ExTextBox();
             this.grpInfo.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +72,7 @@
             // 
             this.btndownload.AutoSize = true;
             this.btndownload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btndownload.Location = new System.Drawing.Point(481, 40);
+            this.btndownload.Location = new System.Drawing.Point(482, 40);
             this.btndownload.Name = "btndownload";
             this.btndownload.Size = new System.Drawing.Size(65, 23);
             this.btndownload.TabIndex = 0;
@@ -89,12 +91,13 @@
             "480p: 854x480",
             "360p: 640x360",
             "240p: 426x240",
-            "Extract Audio"});
-            this.cmbQuality.Location = new System.Drawing.Point(407, 13);
+            "Mp3"});
+            this.cmbQuality.Location = new System.Drawing.Point(430, 13);
             this.cmbQuality.Name = "cmbQuality";
-            this.cmbQuality.Size = new System.Drawing.Size(240, 21);
+            this.cmbQuality.Size = new System.Drawing.Size(224, 21);
             this.cmbQuality.TabIndex = 4;
             this.cmbQuality.TabStop = false;
+            this.cmbQuality.SelectedIndexChanged += new System.EventHandler(this.cmbQuality_SelectedIndexChanged);
             // 
             // backgroundWorker1
             // 
@@ -107,9 +110,9 @@
             // 
             this.btnPause.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(552, 40);
+            this.btnPause.Location = new System.Drawing.Point(556, 40);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(91, 23);
+            this.btnPause.Size = new System.Drawing.Size(98, 23);
             this.btnPause.TabIndex = 5;
             this.btnPause.Text = "Pause/Resume";
             this.btnPause.UseVisualStyleBackColor = true;
@@ -119,7 +122,7 @@
             // 
             this.button4.AutoSize = true;
             this.button4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button4.Location = new System.Drawing.Point(372, 40);
+            this.button4.Location = new System.Drawing.Point(354, 40);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(52, 23);
             this.button4.TabIndex = 8;
@@ -141,7 +144,7 @@
             this.lblpath.AutoEllipsis = true;
             this.lblpath.Location = new System.Drawing.Point(90, 45);
             this.lblpath.Name = "lblpath";
-            this.lblpath.Size = new System.Drawing.Size(276, 13);
+            this.lblpath.Size = new System.Drawing.Size(255, 13);
             this.lblpath.TabIndex = 11;
             // 
             // saveFileDialog1
@@ -181,10 +184,11 @@
             this.grpInfo.Controls.Add(this.label2);
             this.grpInfo.Location = new System.Drawing.Point(15, 72);
             this.grpInfo.Name = "grpInfo";
-            this.grpInfo.Size = new System.Drawing.Size(632, 100);
+            this.grpInfo.Size = new System.Drawing.Size(639, 100);
             this.grpInfo.TabIndex = 14;
             this.grpInfo.TabStop = false;
             this.grpInfo.Text = "Video info";
+            this.grpInfo.Enter += new System.EventHandler(this.grpInfo_Enter);
             // 
             // lblaudio
             // 
@@ -360,7 +364,7 @@
             this.list_Items.HideSelection = false;
             this.list_Items.Location = new System.Drawing.Point(15, 178);
             this.list_Items.Name = "list_Items";
-            this.list_Items.Size = new System.Drawing.Size(635, 240);
+            this.list_Items.Size = new System.Drawing.Size(639, 171);
             this.list_Items.TabIndex = 17;
             this.list_Items.UseCompatibleStateImageBehavior = false;
             this.list_Items.View = System.Windows.Forms.View.Details;
@@ -375,21 +379,22 @@
             // 
             this.button2.AutoEllipsis = true;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button2.Location = new System.Drawing.Point(377, 12);
+            this.button2.Location = new System.Drawing.Point(378, 12);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(25, 21);
+            this.button2.Size = new System.Drawing.Size(25, 22);
             this.button2.TabIndex = 18;
-            this.button2.Text = "x";
+            this.button2.Text = "X";
             this.button2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btncle
             // 
+            this.btncle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btncle.AutoEllipsis = true;
             this.btncle.Enabled = false;
             this.btncle.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btncle.Location = new System.Drawing.Point(622, 181);
+            this.btncle.Location = new System.Drawing.Point(625, 181);
             this.btncle.Name = "btncle";
             this.btncle.Size = new System.Drawing.Size(25, 21);
             this.btncle.TabIndex = 19;
@@ -398,12 +403,33 @@
             this.btncle.UseVisualStyleBackColor = true;
             this.btncle.Click += new System.EventHandler(this.button3_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.Location = new System.Drawing.Point(15, 352);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(639, 3);
+            this.richTextBox1.TabIndex = 20;
+            this.richTextBox1.Text = "";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(354, 12);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(25, 22);
+            this.button3.TabIndex = 21;
+            this.button3.Text = "📋";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // txtlink
             // 
             this.txtlink.Hint = "Past Youtube Video address";
             this.txtlink.Location = new System.Drawing.Point(12, 13);
             this.txtlink.Name = "txtlink";
-            this.txtlink.Size = new System.Drawing.Size(368, 20);
+            this.txtlink.Size = new System.Drawing.Size(390, 20);
             this.txtlink.TabIndex = 15;
             this.txtlink.TextChanged += new System.EventHandler(this.txtlink_TextChanged_1);
             // 
@@ -411,7 +437,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 430);
+            this.ClientSize = new System.Drawing.Size(664, 361);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.btncle);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.list_Items);
@@ -424,6 +452,7 @@
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.cmbQuality);
             this.Controls.Add(this.btndownload);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "TubeDl";
@@ -473,6 +502,8 @@
         private System.Windows.Forms.ColumnHeader fname;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btncle;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button button3;
     }
 }
 

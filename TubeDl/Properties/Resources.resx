@@ -118,7 +118,115 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Icon_Red_X" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Icon_Red_X.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="start_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mp3_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mp3_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mp3_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mp3_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pause_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="remove_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_link_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_link_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_link_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_link_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop_lack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="start_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="video_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\video_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="remove_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="video_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\video_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pause_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_link_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_link_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="progress_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\progress_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="progress_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\progress_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="download_folder_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\download_folder_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="video_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\video_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ok_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ok_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="remove_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nointernet_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nointernet_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="download_folder_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\download_folder_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="start_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pause_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause-color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mp3_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mp3_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="download_folder_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\download_folder_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nointernet_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nointernet_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ok_colore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ok_colore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-plus-math-60 (3).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -22,5 +22,29 @@ namespace TubeDl.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string savepath {
+            get {
+                return ((string)(this["savepath"]));
+            }
+            set {
+                this["savepath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string history {
+            get {
+                return ((string)(this["history"]));
+            }
+            set {
+                this["history"] = value;
+            }
+        }
     }
 }

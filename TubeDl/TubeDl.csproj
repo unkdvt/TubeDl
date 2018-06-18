@@ -54,11 +54,85 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExButton.Designer.cs">
+      <DependentUpon>ExButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="flatUi\FlatAlertBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="flatUi\FlatColors.cs" />
+    <Compile Include="flatUi\FlatStatusBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="flatUi\FormSkin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="flatUi\Helpers.cs" />
+    <Compile Include="flatUi\MouseState.cs" />
+    <Compile Include="TubeDlMethods.cs" />
+    <Compile Include="TydSkin\Brushes.cs" />
+    <Compile Include="TydSkin\Colors.cs" />
     <Compile Include="downloadFile.cs" />
     <Compile Include="ExTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSelect.Designer.cs">
+      <DependentUpon>frmSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="getlength.cs" />
+    <Compile Include="TydSkin\HelperMethods.cs" />
+    <Compile Include="TydSkin\Pens.cs" />
+    <Compile Include="TydSkin\YoutubeButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeButtonX.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YouTubeGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeHorizontalTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeLinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeSeperator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TydSkin\YoutubeTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="YTD\AacAudioExtractor.cs" />
     <Compile Include="YTD\AdaptiveType.cs" />
     <Compile Include="YTD\AudioDownloader.cs" />
@@ -87,6 +161,18 @@
     <Compile Include="YTD\VideoNotAvailableException.cs" />
     <Compile Include="YTD\VideoType.cs" />
     <Compile Include="YTD\YoutubeParseException.cs" />
+    <EmbeddedResource Include="ExButton.resx">
+      <DependentUpon>ExButton.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSelect.resx">
+      <DependentUpon>frmSelect.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +186,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,10 +199,123 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon_Red_X.png" />
+    <None Include="Resources\add_link_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_link_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_link_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download_folder_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download_folder_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download_folder_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mp3_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mp3_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mp3_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nointernet_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nointernet_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok_colore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\progress_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\progress_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause-color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_lack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-stop-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-plus-math-60 %283%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
