@@ -11,7 +11,7 @@ namespace TubeDl
     public static class TubeDlMethods
     {
         public static string downloadurl;
-       public static VideoInfo video;
+        public static VideoInfo video;
         public static Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
 
         public static List<DownloadHelper.downloadFile> ldf = new List<DownloadHelper.downloadFile>();
@@ -36,5 +36,7 @@ namespace TubeDl
                 return fileSizeInMegaByte;
             }
         }
+
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace DownloadHelper
+﻿namespace DownloadHelper
 {
     public class downloadFile
     {

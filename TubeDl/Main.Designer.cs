@@ -153,6 +153,10 @@
             this.saveFileDialog1.RestoreDirectory = true;
             this.saveFileDialog1.Title = "Save File";
             // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
+            // 
             // button1
             // 
             this.button1.AutoSize = true;

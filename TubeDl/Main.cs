@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using YoutubeExtractor;
 
@@ -514,7 +511,7 @@ namespace TubeDl
 
         IntPtr nextClipboardViewer;
 
-        protected override void WndProc(ref System.Windows.Forms.Message m)
+        protected override void WndProc(ref Message m)
         {
             // defined in winuser.h
             const int WM_DRAWCLIPBOARD = 0x308;
@@ -573,6 +570,11 @@ namespace TubeDl
         }
 
         private void grpInfo_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
         {
 
         }

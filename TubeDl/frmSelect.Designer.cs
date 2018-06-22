@@ -332,6 +332,7 @@
             this.exTextBox1.Hint = null;
             this.exTextBox1.Location = new System.Drawing.Point(11, 25);
             this.exTextBox1.Name = "exTextBox1";
+            this.exTextBox1.ReadOnly = true;
             this.exTextBox1.Size = new System.Drawing.Size(388, 20);
             this.exTextBox1.TabIndex = 9;
             // 

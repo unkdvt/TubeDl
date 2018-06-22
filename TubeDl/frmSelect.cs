@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using YoutubeExtractor;
-using TubeDl;
 namespace TubeDl
 {
     public partial class frmSelect : Form
@@ -17,6 +11,8 @@ namespace TubeDl
 
         public frmSelect(string url)
         {
+            if (url == null)
+                Close();
             InitializeComponent();
             url_ = exTextBox1.Text = url;
            // Bitmap bm = new Bitmap(Properties.Resources.ok_colore, 21, 21);
@@ -35,6 +31,7 @@ namespace TubeDl
         private void btnOk_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+          
             Close();
         }
 
@@ -50,7 +47,7 @@ namespace TubeDl
                 {
                     //    pbdown.Value = 0;
                     // Our test youtube link
-                    string link = exTextBox1.Text.Trim();
+                    string link = url_;
 
                     /*
                      * Get the available video formats.
@@ -127,6 +124,7 @@ namespace TubeDl
                         url_.Replace("http://", "").Replace("https://", "").Replace("www", "").Replace("youtube.com/watch?v=", "").Trim()
                         + "/0.jpg";
                     pictureBox1.ImageLocation = imgurl;
+                    TubeDlMethods.downloadurl = TubeDlMethods.video.DownloadUrl;
 #if DEBUG
                     //  textBox1.Text = imgurl;
                     //  richTextBox1.Text = String.Join("\n", videoInfos).Replace(lbltitle.Text, "").Replace("Full", "").Replace("Title: ", "");

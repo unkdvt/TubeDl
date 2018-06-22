@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TubeDl
@@ -28,15 +22,15 @@ namespace TubeDl
             else
             {
                 Bitmap pic = new Bitmap(ImageDisable);
-                for (int w = 0; w < pic.Width; w++)
-                {
-                    for (int h = 0; h < pic.Height; h++)
-                    {
-                        Color c = pic.GetPixel(w, h);
-                        Color newC = Color.FromArgb(30, c);
-                        pic.SetPixel(w, h, newC);
-                    }
-                }
+                //for (int w = 0; w < pic.Width; w++)
+                //{
+                //    for (int h = 0; h < pic.Height; h++)
+                //    {
+                //        Color c = pic.GetPixel(w, h);
+                //        Color newC = Color.FromArgb(20, c);
+                //        pic.SetPixel(w, h, newC);
+                //    }
+                //}
                 Image = pic;
             }
             base.OnCreateControl();
@@ -51,15 +45,15 @@ namespace TubeDl
                 else
                 {
                     Bitmap pic = new Bitmap(ImageDisable);
-                    for (int w = 0; w < pic.Width; w++)
-                    {
-                        for (int h = 0; h < pic.Height; h++)
-                        {
-                            Color c = pic.GetPixel(w, h);
-                            Color newC = Color.FromArgb(30, c);
-                            pic.SetPixel(w, h, newC);
-                        }
-                    }
+                    //for (int w = 0; w < pic.Width; w++)
+                    //{
+                    //    for (int h = 0; h < pic.Height; h++)
+                    //    {
+                    //        Color c = pic.GetPixel(w, h);
+                    //        Color newC = Color.FromArgb(30, c);
+                    //        pic.SetPixel(w, h, newC);
+                    //    }
+                    //}
                     Image = pic;
                 }
             }
