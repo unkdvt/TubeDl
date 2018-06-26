@@ -297,6 +297,7 @@
             this.saveFileDialog1.Filter = "Mp4 Video files (*.Mp4)|*.mp4";
             this.saveFileDialog1.RestoreDirectory = true;
             this.saveFileDialog1.Title = "Save File";
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // button1
             // 
@@ -306,6 +307,7 @@
             this.button1.TabIndex = 18;
             this.button1.Text = "...";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // checkBox1
             // 
@@ -316,6 +318,7 @@
             this.checkBox1.TabIndex = 19;
             this.checkBox1.Text = "Remeber this path for all downloads";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
             // 
             // button2
             // 
@@ -326,6 +329,7 @@
             this.button2.TabIndex = 20;
             this.button2.Text = "Download &later";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // exTextBox1
             // 

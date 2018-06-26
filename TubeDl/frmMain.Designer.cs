@@ -47,10 +47,11 @@
             this.removeFromListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deletePermenatlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.transferrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.flatStatusBar1 = new FlatUI.FlatStatusBar();
             this.btnTargetFolder = new TubeDl.ExButton();
             this.btnRemove = new TubeDl.ExButton();
-            this.btnRemveCompleted = new TubeDl.ExButton();
+            this.btnDelete = new TubeDl.ExButton();
             this.btnStopDownload = new TubeDl.ExButton();
             this.btnPauseDownload = new TubeDl.ExButton();
             this.btnStartDownload = new TubeDl.ExButton();
@@ -66,7 +67,7 @@
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnRemveCompleted)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStopDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPauseDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartDownload)).BeginInit();
@@ -75,13 +76,10 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(73)))), ((int)(((byte)(80)))));
             this.panel1.Controls.Add(this.btnTargetFolder);
             this.panel1.Controls.Add(this.btnRemove);
-            this.panel1.Controls.Add(this.btnRemveCompleted);
+            this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnStopDownload);
             this.panel1.Controls.Add(this.btnPauseDownload);
             this.panel1.Controls.Add(this.btnStartDownload);
@@ -92,6 +90,7 @@
             this.panel1.Controls.Add(this.youtubeSeperator3);
             this.panel1.Controls.Add(this.youtubeSeperator4);
             this.panel1.Controls.Add(this.youtubeSeperator2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -117,6 +116,7 @@
             this.fname,
             this.total_length,
             this.downloaded_length,
+            this.transferrate,
             this.status,
             this.added});
             this.list_Items.ContextMenuStrip = this.contextMenuStrip1;
@@ -126,7 +126,7 @@
             this.list_Items.HideSelection = false;
             this.list_Items.Location = new System.Drawing.Point(0, 106);
             this.list_Items.Name = "list_Items";
-            this.list_Items.Size = new System.Drawing.Size(825, 385);
+            this.list_Items.Size = new System.Drawing.Size(825, 291);
             this.list_Items.TabIndex = 18;
             this.list_Items.UseCompatibleStateImageBehavior = false;
             this.list_Items.View = System.Windows.Forms.View.Details;
@@ -136,29 +136,28 @@
             // fname
             // 
             this.fname.Text = "Name";
-            this.fname.Width = 407;
+            this.fname.Width = 409;
             // 
             // total_length
             // 
             this.total_length.Text = "Size";
-            this.total_length.Width = 80;
+            this.total_length.Width = 46;
             // 
             // downloaded_length
             // 
             this.downloaded_length.Text = "Progress";
             this.downloaded_length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.downloaded_length.Width = 120;
             // 
             // status
             // 
             this.status.Text = "Status";
-            this.status.Width = 95;
+            this.status.Width = 85;
             // 
             // added
             // 
             this.added.Text = "Added";
             this.added.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.added.Width = 100;
+            this.added.Width = 132;
             // 
             // contextMenuStrip1
             // 
@@ -230,13 +229,18 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // transferrate
+            // 
+            this.transferrate.Text = "Transfer rate";
+            this.transferrate.Width = 79;
+            // 
             // flatStatusBar1
             // 
             this.flatStatusBar1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(47)))), ((int)(((byte)(49)))));
             this.flatStatusBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flatStatusBar1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.flatStatusBar1.ForeColor = System.Drawing.Color.White;
-            this.flatStatusBar1.Location = new System.Drawing.Point(0, 493);
+            this.flatStatusBar1.Location = new System.Drawing.Point(0, 399);
             this.flatStatusBar1.Name = "flatStatusBar1";
             this.flatStatusBar1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
             this.flatStatusBar1.ShowTimeDate = false;
@@ -250,7 +254,7 @@
             this.btnTargetFolder.Image = global::TubeDl.Properties.Resources.download_folder_color;
             this.btnTargetFolder.ImageDisable = global::TubeDl.Properties.Resources.download_folder_gray;
             this.btnTargetFolder.ImageEnable = global::TubeDl.Properties.Resources.download_folder_color;
-            this.btnTargetFolder.Location = new System.Drawing.Point(421, 13);
+            this.btnTargetFolder.Location = new System.Drawing.Point(355, 13);
             this.btnTargetFolder.Name = "btnTargetFolder";
             this.btnTargetFolder.Size = new System.Drawing.Size(32, 32);
             this.btnTargetFolder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -265,7 +269,7 @@
             this.btnRemove.Image = global::TubeDl.Properties.Resources.delete_color;
             this.btnRemove.ImageDisable = global::TubeDl.Properties.Resources.delete_gray;
             this.btnRemove.ImageEnable = global::TubeDl.Properties.Resources.delete_color;
-            this.btnRemove.Location = new System.Drawing.Point(287, 13);
+            this.btnRemove.Location = new System.Drawing.Point(221, 13);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(32, 32);
             this.btnRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -273,20 +277,20 @@
             this.btnRemove.TabStop = false;
             this.btnRemove.Click += new System.EventHandler(this.removeFromListToolStripMenuItem_Click);
             // 
-            // btnRemveCompleted
+            // btnDelete
             // 
-            this.btnRemveCompleted.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemveCompleted.Enabled = false;
-            this.btnRemveCompleted.Image = global::TubeDl.Properties.Resources.remove_color;
-            this.btnRemveCompleted.ImageDisable = global::TubeDl.Properties.Resources.remove_gray;
-            this.btnRemveCompleted.ImageEnable = global::TubeDl.Properties.Resources.remove_color;
-            this.btnRemveCompleted.Location = new System.Drawing.Point(355, 13);
-            this.btnRemveCompleted.Name = "btnRemveCompleted";
-            this.btnRemveCompleted.Size = new System.Drawing.Size(32, 32);
-            this.btnRemveCompleted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnRemveCompleted.TabIndex = 19;
-            this.btnRemveCompleted.TabStop = false;
-            this.btnRemveCompleted.Click += new System.EventHandler(this.deletePermenatlyToolStripMenuItem_Click);
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Image = global::TubeDl.Properties.Resources.remove_color;
+            this.btnDelete.ImageDisable = global::TubeDl.Properties.Resources.remove_gray;
+            this.btnDelete.ImageEnable = global::TubeDl.Properties.Resources.remove_color;
+            this.btnDelete.Location = new System.Drawing.Point(289, 13);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(32, 32);
+            this.btnDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnDelete.TabIndex = 19;
+            this.btnDelete.TabStop = false;
+            this.btnDelete.Click += new System.EventHandler(this.deletePermenatlyToolStripMenuItem_Click);
             // 
             // btnStopDownload
             // 
@@ -295,12 +299,13 @@
             this.btnStopDownload.Image = global::TubeDl.Properties.Resources.stop_color;
             this.btnStopDownload.ImageDisable = global::TubeDl.Properties.Resources.stop_gray;
             this.btnStopDownload.ImageEnable = global::TubeDl.Properties.Resources.stop_color;
-            this.btnStopDownload.Location = new System.Drawing.Point(219, 13);
+            this.btnStopDownload.Location = new System.Drawing.Point(422, 13);
             this.btnStopDownload.Name = "btnStopDownload";
             this.btnStopDownload.Size = new System.Drawing.Size(32, 32);
             this.btnStopDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnStopDownload.TabIndex = 18;
             this.btnStopDownload.TabStop = false;
+            this.btnStopDownload.Visible = false;
             this.btnStopDownload.Click += new System.EventHandler(this.btnStopDownload_Click);
             // 
             // btnPauseDownload
@@ -350,7 +355,7 @@
             // youtubeSeperator7
             // 
             this.youtubeSeperator7.BackColor = System.Drawing.Color.Transparent;
-            this.youtubeSeperator7.Location = new System.Drawing.Point(402, 9);
+            this.youtubeSeperator7.Location = new System.Drawing.Point(336, 9);
             this.youtubeSeperator7.Name = "youtubeSeperator7";
             this.youtubeSeperator7.SeperatorColor = System.Drawing.Color.Gray;
             this.youtubeSeperator7.SeperatorStyle = YoutubeTheme.Skin.YoutubeSeperator.Style.Vertiacal;
@@ -360,7 +365,7 @@
             // youtubeSeperator5
             // 
             this.youtubeSeperator5.BackColor = System.Drawing.Color.Transparent;
-            this.youtubeSeperator5.Location = new System.Drawing.Point(335, 9);
+            this.youtubeSeperator5.Location = new System.Drawing.Point(269, 9);
             this.youtubeSeperator5.Name = "youtubeSeperator5";
             this.youtubeSeperator5.SeperatorColor = System.Drawing.Color.Gray;
             this.youtubeSeperator5.SeperatorStyle = YoutubeTheme.Skin.YoutubeSeperator.Style.Vertiacal;
@@ -370,7 +375,7 @@
             // youtubeSeperator6
             // 
             this.youtubeSeperator6.BackColor = System.Drawing.Color.Transparent;
-            this.youtubeSeperator6.Location = new System.Drawing.Point(469, 9);
+            this.youtubeSeperator6.Location = new System.Drawing.Point(403, 9);
             this.youtubeSeperator6.Name = "youtubeSeperator6";
             this.youtubeSeperator6.SeperatorColor = System.Drawing.Color.Gray;
             this.youtubeSeperator6.SeperatorStyle = YoutubeTheme.Skin.YoutubeSeperator.Style.Vertiacal;
@@ -380,12 +385,13 @@
             // youtubeSeperator3
             // 
             this.youtubeSeperator3.BackColor = System.Drawing.Color.Transparent;
-            this.youtubeSeperator3.Location = new System.Drawing.Point(268, 9);
+            this.youtubeSeperator3.Location = new System.Drawing.Point(471, 9);
             this.youtubeSeperator3.Name = "youtubeSeperator3";
             this.youtubeSeperator3.SeperatorColor = System.Drawing.Color.Gray;
             this.youtubeSeperator3.SeperatorStyle = YoutubeTheme.Skin.YoutubeSeperator.Style.Vertiacal;
             this.youtubeSeperator3.Size = new System.Drawing.Size(4, 40);
             this.youtubeSeperator3.TabIndex = 9;
+            this.youtubeSeperator3.Visible = false;
             // 
             // youtubeSeperator4
             // 
@@ -411,7 +417,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 516);
+            this.ClientSize = new System.Drawing.Size(825, 422);
             this.Controls.Add(this.flatStatusBar1);
             this.Controls.Add(this.list_Items);
             this.Controls.Add(this.panel1);
@@ -425,7 +431,7 @@
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnRemveCompleted)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStopDownload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPauseDownload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartDownload)).EndInit();
@@ -453,7 +459,7 @@
         private ExButton btnStartDownload;
         private ExButton btnPauseDownload;
         private ExButton btnStopDownload;
-        private ExButton btnRemveCompleted;
+        private ExButton btnDelete;
         private ExButton btnRemove;
         private FlatUI.FlatStatusBar flatStatusBar1;
         private ExButton btnTargetFolder;
@@ -466,5 +472,6 @@
         private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ColumnHeader transferrate;
     }
 }

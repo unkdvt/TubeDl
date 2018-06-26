@@ -1,6 +1,6 @@
 ﻿namespace DownloadHelper
 {
-    public class downloadFile
+    public class downloadFile : System.IDisposable
     {
         #region Variables
         /// <summary>
@@ -190,7 +190,7 @@
             dsTimer.Start();
             // Set 'cancelDownload' to false, so that method can stop again.
             cancelDownload = false;
-          
+
             req = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
             // check if downloaded-length!=0 and !overwrite so the user want to resume.
             if (dLength > 0 && !overwrite)
@@ -221,8 +221,8 @@
             dlTimer.Stop();
             dsTimer.Stop();
             isDownloading = false;
-           // eSpeed.Invoke(null, "0.0 Kb/s");    // update downloading-speed to 0.0 kb/s.
-            eDownloadedSize.Invoke(null,View.Size.getlength.GetLengthString( DownloadedLength)); // update downloaded-size.
+            // eSpeed.Invoke(null, "0.0 Kb/s");    // update downloading-speed to 0.0 kb/s.
+            eDownloadedSize.Invoke(null, View.Size.getlength.GetLengthString(DownloadedLength)); // update downloaded-size.
             eDownloadState.Invoke(null, DownloadState);     // update download-state.
             fStream.Dispose();      // free file on harddisk by dispose 'fStream'.
         }

@@ -121,14 +121,12 @@ namespace YoutubeExtractor
             return null; // Will never happen, but the compiler requires it
         }
 
-        //#if PORTABLE
 
         public static System.Threading.Tasks.Task<IEnumerable<VideoInfo>> GetDownloadUrlsAsync(string videoUrl, bool decryptSignature = true)
         {
             return System.Threading.Tasks.Task.Run(() => GetDownloadUrls(videoUrl, decryptSignature));
         }
 
-        //#endif
 
         /// <summary>
         /// Normalizes the given YouTube URL to the format http://youtube.com/watch?v={youtube-id}

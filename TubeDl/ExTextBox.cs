@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.ComponentModel;
 using System;
+using System.Runtime.InteropServices;
 
 namespace TextBoxWatermark
 {
@@ -57,7 +58,7 @@ namespace TextBoxWatermark
             e.Graphics.DrawString(drawString, drawFont, drawBrush, Location);
             drawFont.Dispose();
             drawBrush.Dispose();
-         
+
 
             base.OnPaint(e);
         }
@@ -65,14 +66,15 @@ namespace TextBoxWatermark
         {
 
 
-           
+
             // Send EM_SETMARGINS to prevent text from disappearing underneath the button
-           // SendMessage(Handle, 0xd3, (IntPtr)2, (IntPtr)(btn.Width << 16));
+            // SendMessage(Handle, 0xd3, (IntPtr)2, (IntPtr)(btn.Width << 16));
             base.OnCreateControl();
         }
-      
+
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
+
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
         private void btn_Click(object sender, EventArgs e)

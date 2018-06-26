@@ -8,14 +8,34 @@ using YoutubeExtractor;
 
 namespace TubeDl
 {
-    public static class TubeDlMethods
+    public static class TubeDlHelpers
     {
         public static string downloadurl;
         public static VideoInfo video;
         public static Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
+        public static string customSavePath;
 
         public static List<DownloadHelper.downloadFile> ldf = new List<DownloadHelper.downloadFile>();
 
+        public static string savePath;
+        /// <summary>
+        /// file savepath
+        /// </summary>
+        public static string SavePath
+        {
+            get { return savePath; }
+            set { savePath = value; }
+        }
+
+        public static string Extention()
+        {
+            var ext = TubeDlHelpers.video.Resolution.ToString();
+            if (ext == "0")
+                return ".mp3";
+            else
+                return ".Mp4";
+
+        }
         public static string RemoveIllegalPathCharacters(string path)
         {
             string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
@@ -36,7 +56,5 @@ namespace TubeDl
                 return fileSizeInMegaByte;
             }
         }
-
-
     }
 }

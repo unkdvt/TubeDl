@@ -20,7 +20,7 @@ namespace TubeDl
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-        //    MessageBox.Show(e.ToString());
+            MessageBox.Show(e.ToString());
         }
     }
 }
