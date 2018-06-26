@@ -295,6 +295,7 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.Filter = "Mp4 Video files (*.Mp4)|*.mp4";
+            this.saveFileDialog1.InitialDirectory = "D:\\";
             this.saveFileDialog1.RestoreDirectory = true;
             this.saveFileDialog1.Title = "Save File";
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);

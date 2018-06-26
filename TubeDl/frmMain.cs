@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using YoutubeExtractor;
-
+using Unkdevt;
 namespace TubeDl
 {
     public partial class frmMain : Form
@@ -16,26 +16,21 @@ namespace TubeDl
         {
             InitializeComponent();
             System.Net.ServicePointManager.DefaultConnectionLimit = 100;
-            //initilize clipboard capture
+            //initialize clipboard capture
             if (String.IsNullOrEmpty(Properties.Settings.Default.savepath))
             {
-                Properties.Settings.Default.savepath = TubeDlHelpers.SavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                Properties.Settings.Default.savepath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
                 Properties.Settings.Default.Save();
             }
-            TubeDlHelpers.SavePath = Properties.Settings.Default.savepath;
             var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
-
-            var companyName = versionInfo.LegalTrademarks;
-            Text = Application.ProductName + " " + Application.ProductVersion + companyName;
-
-            list_Items.LostFocus += List_Items_LostFocus;
+            var ReleaseType = versionInfo.LegalTrademarks;
+            Text = Application.ProductName + " " + Application.ProductVersion + ReleaseType;
         }
 
-        private void List_Items_LostFocus(object sender, EventArgs e)
-        {
-            enableButtons(false);
-        }
+
         #region variables 
+        string path_;
+        bool capture_ = false;
         #endregion
 
         #region Properties
@@ -73,7 +68,6 @@ namespace TubeDl
             // defined in winuser.h
             const int WM_DRAWCLIPBOARD = 0x308;
             const int WM_CHANGECBCHAIN = 0x030D;
-
             switch (m.Msg)
             {
                 case WM_DRAWCLIPBOARD:
@@ -100,6 +94,7 @@ namespace TubeDl
             {
 
                 var videoUrl = (string)Clipboard.GetData(DataFormats.Text);
+                //  Clipboard.Clear();
                 bool isYoutubeUrl = DownloadUrlResolver.TryNormalizeYoutubeUrl(videoUrl, out videoUrl);
                 if (isYoutubeUrl)
                 {
@@ -114,30 +109,58 @@ namespace TubeDl
                             Download(TubeDlHelpers.downloadurl);
                             TubeDlHelpers.ldf[list_Items.Items.Count - 1].CancelDownload();
                             break;
+                        case DialogResult.Abort:
+                            Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
+                            break;
+                        case DialogResult.Cancel:
+                            return;
                     }
                 }
             }
             catch (Exception e)
             {
 #if DEBUG
-                MessageBox.Show(e.Message);
+                //  MessageBox.Show(e.Message);
 #endif
             }
         }
         #endregion
 
-        #region methods
+        #region Functions
+        private void Updatelist()
+        {
+            if (this.list_Items.SelectedIndices.Count > 0)
+                for (int i = 0; i < this.list_Items.SelectedIndices.Count; i++)
+                {
+                    this.list_Items.Items[this.list_Items.SelectedIndices[i]].Selected = false;
+                }
+            list_Items.Update();
+        }
+        void enableButtons(bool e)
+        {
+
+            btnDelete.Enabled = e;
+            btnRemove.Enabled = e;
+            btnStartDownload.Enabled = e;
+            btnPauseDownload.Enabled = e;
+
+        }
 
 
         public void Download(string link)
+        {
+            Download(link, false, "", "");
+        }
+        public void Download(string link, bool custome, string path, string filename)
         {
             try
             {
                 var ext = TubeDlHelpers.Extention();
 
-                string vname = TubeDlHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
-                    + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + TubeDlHelpers.Extention();
 
+                string vname = StringHelpers.RemoveIllegalPathCharacters(custome ? filename : TubeDlHelpers.video.Title)
+                    + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + TubeDlHelpers.Extention();
+                path_ = (custome ? path : TubeDlHelpers.SavePath);
                 ListViewItem item = list_Items.FindItemWithText(vname);
 
                 if (item != null)
@@ -149,12 +172,12 @@ namespace TubeDl
                 {
                     // doesn't exist 
 
-                    if (File.Exists(Path.Combine(TubeDlHelpers.SavePath, vname)))
+                    if (File.Exists(Path.Combine(custome ? path : path_, vname)))
                     {
-                        if (MessageBox.Show("File Already exist, Replace?", Text,
+                        if (MessageBox.Show("\'" + vname + "\' Already exist in " + path_ + "\r\nReplace file in destination ? ", Text,
                             MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            File.Delete(Path.Combine(TubeDlHelpers.SavePath, vname));
+                            File.Delete(Path.Combine(path_, vname));
 
                             int indx = list_Items.Items.Count;
                             list_Items.Items.Add(vname);
@@ -162,10 +185,10 @@ namespace TubeDl
                             {
                                 list_Items.Items[indx].SubItems.Add("");
                             }
-                            list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                            list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToFileTime().ToString();
 
                             DownloadHelper.downloadFile d =
-                                new DownloadHelper.downloadFile(link, Path.Combine(TubeDlHelpers.SavePath, vname));
+                                new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
                             TubeDlHelpers.ldf.Add(d);
 
                             Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
@@ -175,8 +198,8 @@ namespace TubeDl
 
                             d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
                             d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                            d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                             d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
+                            d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                         }
                         else
                         {
@@ -192,8 +215,8 @@ namespace TubeDl
                         {
                             list_Items.Items[indx].SubItems.Add("");
                         }
-                        list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString("dd MMM HH:mm:ss");
-                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(link, Path.Combine(TubeDlHelpers.SavePath, vname));
+                        list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToFileTime().ToString();
+                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
                         TubeDlHelpers.ldf.Add(d);
 
                         Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
@@ -203,15 +226,15 @@ namespace TubeDl
 
                         d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
                         d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                        d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                         d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
+                        d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                     }
                 }
             }
             catch (Exception ex)
             {
 #if DEBUG
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
 #endif
                 /// btndownload.Enabled = true;
                 //btnPause.Enabled = false;
@@ -222,62 +245,63 @@ namespace TubeDl
         private void OpenLocation()
         {
             if (list_Items.SelectedItems.Count == 1)
-                Process.Start("explorer.exe", "/select," + Path.Combine(TubeDlHelpers.SavePath, list_Items.SelectedItems[0].SubItems[0].Text));
+                Process.Start("explorer.exe", "/select," + TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].FilePath);
             else
                 Process.Start("explorer.exe", TubeDlHelpers.SavePath);
         }
         #endregion
+
+
         private void exButton1_Click(object sender, EventArgs e)
         {
-            try
+            // try
+            // {
+            nextClipboardViewer = IntPtr.Zero;
+            var videoUrl = (string)Clipboard.GetData(DataFormats.Text);
+            Url = videoUrl;
+            var add = new frmAddlink();
+            var select = new frmSelect(videoUrl);
+            switch (add.ShowDialog())
             {
-                nextClipboardViewer = IntPtr.Zero;
-                var videoUrl = (string)Clipboard.GetData(DataFormats.Text);
-                bool isYoutubeUrl = DownloadUrlResolver.TryNormalizeYoutubeUrl(videoUrl, out videoUrl);
-                if (isYoutubeUrl)
-                {
-                    Url = videoUrl;
-                    var select = new frmSelect(videoUrl);
-                    switch (select.ShowDialog())
-                    {
-                        case DialogResult.OK:
-                            Download(TubeDlHelpers.downloadurl);
-                            break;
-                        case DialogResult.Ignore:
-                            Download(TubeDlHelpers.downloadurl);
-                            TubeDlHelpers.ldf[list_Items.Items.Count].CancelDownload();
-                            break;
-                    }
-                }
-                if (!isYoutubeUrl)
-                    nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-
+                case DialogResult.OK:
+                    Download(TubeDlHelpers.downloadurl);
+                    break;
+                case DialogResult.Ignore:
+                    Download(TubeDlHelpers.downloadurl);
+                    TubeDlHelpers.ldf[list_Items.Items.Count].CancelDownload();
+                    break;
+                case DialogResult.Abort:
+                    Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
+                    break;
             }
-            catch (Exception ex)
-            {
-#if DEBUG
-                MessageBox.Show(ex.Message);
 
-#endif
-            }
+
+
+
+
+
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //#if DEBUG
+            //                  MessageBox.Show(ex.Message);
+
+            //#endif
+            //            }
+            //            finally
+            //            {
+            //                nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
+            //            }
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-
+            label1.Text = string.Format("{0} : {1}", "Default Download Location", TubeDlHelpers.savePath);
             backgroundWorker1.RunWorkerAsync();
         }
 
-        void enableButtons(bool e)
-        {
 
-            btnDelete.Enabled = e;
-            btnRemove.Enabled = e;
-            btnStartDownload.Enabled = e;
-            btnPauseDownload.Enabled = e;
-
-        }
         private void list_Items_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -301,76 +325,64 @@ namespace TubeDl
                     btnPauseDownload.Enabled = false;
 
                 }
-                else if (list_Items.SelectedItems.Count ==-1)
+                if (list_Items.SelectedItems.Count == 0)
                 {
                     btnDelete.Enabled = false;
                     btnRemove.Enabled = false;
                     btnStartDownload.Enabled = false;
                     btnPauseDownload.Enabled = false;
                 }
-                else if (TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].DownloadState == "Downloading")
+                if (list_Items.SelectedItems.Count == 1)
                 {
-                    resumeToolStripMenuItem.Enabled = false;
-                    openFileLocationToolStripMenuItem.Enabled = false;
-                    openToolStripMenuItem.Enabled = false;
-                    removeFromListToolStripMenuItem.Enabled = false;
-                    deletePermenatlyToolStripMenuItem.Enabled = false;
+                    if (TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].DownloadState == "Downloading")
+                    {
+                        resumeToolStripMenuItem.Enabled = false;
+                        openFileLocationToolStripMenuItem.Enabled = false;
+                        openToolStripMenuItem.Enabled = false;
+                        removeFromListToolStripMenuItem.Enabled = false;
+                        deletePermenatlyToolStripMenuItem.Enabled = false;
 
-                    btnDelete.Enabled = false;
-                    btnRemove.Enabled = false;
-                    btnStartDownload.Enabled = false;
-                    btnPauseDownload.Enabled = true;
-                }
+                        btnDelete.Enabled = false;
+                        btnRemove.Enabled = false;
+                        btnStartDownload.Enabled = false;
+                        btnPauseDownload.Enabled = true;
+                    }
 
-                else if (TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].DownloadState == "Paused")
-                {
-                    pauseToolStripMenuItem.Enabled = false;
-                    openFileLocationToolStripMenuItem.Enabled = false;
-                    openToolStripMenuItem.Enabled = false;
-                    removeFromListToolStripMenuItem.Enabled = true;
-                    deletePermenatlyToolStripMenuItem.Enabled = true;
+                    if (TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].DownloadState == "Paused")
+                    {
+                        pauseToolStripMenuItem.Enabled = false;
+                        openFileLocationToolStripMenuItem.Enabled = false;
+                        openToolStripMenuItem.Enabled = false;
+                        removeFromListToolStripMenuItem.Enabled = true;
+                        deletePermenatlyToolStripMenuItem.Enabled = true;
 
-                    btnDelete.Enabled = true;
-                    btnRemove.Enabled = true;
-                    btnStartDownload.Enabled = true;
-                    btnPauseDownload.Enabled = false;
-                }
-                else if (TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].DownloadState == "Completed")
-                {
-                    pauseToolStripMenuItem.Enabled = false;
-                    resumeToolStripMenuItem.Enabled = false;
-                    openFileLocationToolStripMenuItem.Enabled = true;
-                    openToolStripMenuItem.Enabled = true;
-                    removeFromListToolStripMenuItem.Enabled = true;
-                    deletePermenatlyToolStripMenuItem.Enabled = true;
+                        btnDelete.Enabled = true;
+                        btnRemove.Enabled = true;
+                        btnStartDownload.Enabled = true;
+                        btnPauseDownload.Enabled = false;
+                    }
+                    if (TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].DownloadState == "Completed")
+                    {
+                        pauseToolStripMenuItem.Enabled = false;
+                        resumeToolStripMenuItem.Enabled = false;
+                        openFileLocationToolStripMenuItem.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        removeFromListToolStripMenuItem.Enabled = true;
+                        deletePermenatlyToolStripMenuItem.Enabled = true;
 
-                    btnDelete.Enabled = true;
-                    btnRemove.Enabled = true;
-                    btnStartDownload.Enabled = false;
-                    btnPauseDownload.Enabled = false;
+                        btnDelete.Enabled = true;
+                        btnRemove.Enabled = true;
+                        btnStartDownload.Enabled = false;
+                        btnPauseDownload.Enabled = false;
 
-                }
-                else
-                {
-                    btnDelete.Enabled = false;
-                    btnRemove.Enabled = false;
-                    btnStartDownload.Enabled = false;
-                    btnPauseDownload.Enabled = false;
+                    }
                 }
             }
             catch { }
 
         }
 
-        private void Updatelist()
-        {
-            if (this.list_Items.SelectedIndices.Count > 0)
-                for (int i = 0; i < this.list_Items.SelectedIndices.Count; i++)
-                {
-                    this.list_Items.Items[this.list_Items.SelectedIndices[i]].Selected = false;
-                }
-            list_Items.Update();
-        }
+
 
         private void btnTargetFolder_Click(object sender, EventArgs e)
         {
@@ -385,17 +397,11 @@ namespace TubeDl
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (list_Items.SelectedItems.Count < 1)
+            if (list_Items.SelectedItems.Count == 0)
             {
                 e.Cancel = true;
             }
-            switch (e.Cancel)
-            {
-                case true:
-                    // list_Items.SelectedItems[0].Focused = false;
-                    break;
-            }
-            //
+
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -420,7 +426,7 @@ namespace TubeDl
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", "\"" + Path.Combine(TubeDlHelpers.SavePath, list_Items.SelectedItems[0].SubItems[0].Text) + "\"");
+            OpenLocation();
             Updatelist();
 
         }
@@ -447,7 +453,7 @@ namespace TubeDl
                         try
                         {
 
-                            File.Delete(Path.Combine(TubeDlHelpers.SavePath, list_Items.SelectedItems[l.Index].SubItems[0].Text));
+                            File.Delete(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text));
                         }
                         catch { }
                         list_Items.SelectedItems[l.Index].Remove();
@@ -475,9 +481,9 @@ namespace TubeDl
                         if (MessageBox.Show("Are you sure, Do you want to move this file into recycle bin?", Text,
                             MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                         {
-                            FileSystem.DeleteFile(Path.Combine(TubeDlHelpers.SavePath, list_Items.SelectedItems[l.Index].SubItems[0].Text)
+                            FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text)
                                 , UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.ThrowException);
-                            //  File.Delete(Path.Combine(TubeDlHelpers.SavePath, list_Items.SelectedItems[l.Index].SubItems[0].Text));
+                            //  File.Delete(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text));
                             TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
                             list_Items.SelectedItems[l.Index].Remove();
                         }
@@ -523,6 +529,28 @@ namespace TubeDl
                         }
 
                     }
+
+
+                    if (list_Items.SelectedItems.Count == 0)
+                    {
+                        Invoke(new Action(() => enableButtons(false)));
+                    }
+                    int downcount = 0;
+                    int pausedcount = 0;
+                    int compcount = 0;
+                    foreach (ListViewItem ls in list_Items.Items)
+                    {
+                        if (ls.SubItems[4].Text == "Downloading")
+                            downcount++;
+                        if (ls.SubItems[4].Text == "Paused")
+                            pausedcount++;
+                        if (ls.SubItems[4].Text == "Completed")
+                            compcount++;
+                    }
+
+                    toolStripStatusLabel1.Text =
+                        "*Active downloads - " + downcount + "  |  *Paused - " + pausedcount + "  |  *Completed - " + compcount;
+
                 });
             }
             catch (Exception wx)
@@ -541,6 +569,11 @@ namespace TubeDl
         private void button1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void exButton1_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.Show("Click to add new download", this);
         }
     }
 }

@@ -52,10 +52,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -70,24 +66,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoClosingMsgBox.cs" />
     <Compile Include="ExButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExButton.Designer.cs">
       <DependentUpon>ExButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="flatUi\FlatAlertBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="flatUi\FlatColors.cs" />
-    <Compile Include="flatUi\FlatStatusBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="flatUi\FormSkin.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="flatUi\Helpers.cs" />
-    <Compile Include="flatUi\MouseState.cs" />
     <Compile Include="frmAddlink.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,9 +80,6 @@
       <DependentUpon>frmAddlink.cs</DependentUpon>
     </Compile>
     <Compile Include="TubeDlHelpers.cs" />
-    <Compile Include="TydSkin\Brushes.cs" />
-    <Compile Include="TydSkin\Colors.cs" />
-    <Compile Include="downloadFile.cs" />
     <Compile Include="ExTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -113,70 +95,8 @@
     <Compile Include="frmSelect.Designer.cs">
       <DependentUpon>frmSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="getlength.cs" />
-    <Compile Include="TydSkin\HelperMethods.cs" />
-    <Compile Include="TydSkin\Pens.cs" />
-    <Compile Include="TydSkin\YoutubeButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeButtonX.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeCheckBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YouTubeGroupBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeHorizontalTabControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeLinkLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeRadioButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeSeperator.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeTabControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TydSkin\YoutubeTextbox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="YTD\AacAudioExtractor.cs" />
-    <Compile Include="YTD\AdaptiveType.cs" />
-    <Compile Include="YTD\AudioDownloader.cs" />
-    <Compile Include="YTD\AudioExtractionException.cs" />
-    <Compile Include="YTD\AudioType.cs" />
-    <Compile Include="YTD\BigEndianBitConverter.cs" />
-    <Compile Include="YTD\BitHelper.cs" />
-    <Compile Include="YTD\Decipherer.cs" />
-    <Compile Include="YTD\Downloader.cs" />
-    <Compile Include="YTD\DownloadUrlResolver.cs" />
-    <Compile Include="YTD\FlvFile.cs" />
-    <Compile Include="YTD\HttpHelper.cs" />
-    <Compile Include="YTD\IAudioExtractor.cs" />
-    <Compile Include="YTD\Mp3AudioExtractor.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="YTD\ProgressEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YTD\VideoDownloader.cs" />
-    <Compile Include="YTD\VideoInfo.cs" />
-    <Compile Include="YTD\VideoNotAvailableException.cs" />
-    <Compile Include="YTD\VideoType.cs" />
-    <Compile Include="YTD\YoutubeParseException.cs" />
     <EmbeddedResource Include="ExButton.resx">
       <DependentUpon>ExButton.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -349,6 +269,24 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadHelper\DownloadHelper.csproj">
+      <Project>{53f79242-32e1-4cb3-9673-67d9549ab367}</Project>
+      <Name>DownloadHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libNet\libNet.csproj">
+      <Project>{41bbc108-d22d-4439-8bb7-b28ca2390bce}</Project>
+      <Name>libNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libstringHelper\libstringHelper.csproj">
+      <Project>{eae9a86d-87d3-4e95-9534-715ea8131a9f}</Project>
+      <Name>libstringHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libYtd\libYtd.csproj">
+      <Project>{ca29c7b7-9116-49d9-a6a3-ca26f19c4e34}</Project>
+      <Name>libYtd</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

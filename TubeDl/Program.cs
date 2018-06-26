@@ -11,7 +11,7 @@ namespace TubeDl
         [STAThread]
         static void Main()
         {
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+           // AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -20,7 +20,7 @@ namespace TubeDl
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ToString());
+         //   MessageBox.Show(e.ExceptionObject.ToString());
         }
     }
 }
