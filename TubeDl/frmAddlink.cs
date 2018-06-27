@@ -14,7 +14,7 @@ namespace TubeDl
         {
             var new_ = new frmDownloadDialog(exTextBox1.Text.Trim());
             if (new_.ShowDialog() == DialogResult.OK)
-                DialogResult = DialogResult.OK;
+                DialogResult = new_.DialogResult;
             Close();
         }
 

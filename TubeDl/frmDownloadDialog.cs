@@ -23,6 +23,7 @@ namespace TubeDl
 
         private void frmSelect_Load(object sender, EventArgs e)
         {
+
             try
             {
                 if (Unkdevt.ConnectionHelpers.IsNetworkAvailablex)
@@ -39,17 +40,16 @@ namespace TubeDl
                 MessageBox.Show(wx.Message);
                 Close();
             }
-
         }
 
-        bool custome = false;
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (custome)
-                DialogResult = DialogResult.Abort;
-            else
-                DialogResult = DialogResult.OK;
-
+            TubeDlHelpers.Combine = false;
+            if (cmbQuality.SelectedIndex == 2 || cmbQuality.SelectedIndex == 4)
+            {
+                TubeDlHelpers.Combine = true;
+            }
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -173,7 +173,13 @@ namespace TubeDl
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                if (ex.Message.Contains("youtube.com"))
+                    MessageBox.Show("Check internet connection");
+                else
+                    MessageBox.Show(ex.Message + "\ntry again with low quality");
+                cmbQuality.Enabled = true;
+                pictureBox1.Image = null;
+
                 //Close();
             }
         }
@@ -182,9 +188,20 @@ namespace TubeDl
         {
             try
             {
-                catchlink();
+                if (Unkdevt.ConnectionHelpers.IsNetworkAvailablex)
+                    catchlink();
+                else
+                {
+                    MessageBox.Show("Internet connection required!", Text, MessageBoxButtons.OK,
+                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                    Close();
+                }
             }
-            catch { }
+            catch (Exception wx)
+            {
+                MessageBox.Show(wx.Message);
+                Close();
+            }
         }
 
         private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
@@ -203,15 +220,14 @@ namespace TubeDl
                 saveFileDialog1.FileName = vname;
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    custome = true;
+                    TubeDlHelpers.Custome = true;
                     textBox1.Text = Path.GetFullPath(TubeDlHelpers.customSavePath = saveFileDialog1.FileName);
                     TubeDlHelpers.customeSavefileName = Path.GetFileName(saveFileDialog1.FileName);
                     MessageBox.Show(TubeDlHelpers.customSavePath + "\n" + TubeDlHelpers.customeSavefileName);
                 }
                 else
                 {
-
-                    custome = false;
+                    TubeDlHelpers.Custome = false;
                 }
             }
             catch { }

@@ -18,6 +18,28 @@ namespace TubeDl
         public static List<DownloadHelper.downloadFile> ldf = new List<DownloadHelper.downloadFile>();
 
         public static string savePath;
+
+        private static bool custome;
+
+        /// <summary>
+        /// Custome location download
+        /// </summary>
+        public static bool Custome
+        {
+            set { custome = value; }
+            get { return custome; }
+        }
+
+        private static bool combine;
+        /// <summary>
+        ///download 420p and 240p video files
+        ///
+        /// </summary>
+        public static bool Combine
+        {
+            set { combine = value; }
+            get { return combine; }
+        }
         /// <summary>
         /// file savepath
         /// </summary>
@@ -29,7 +51,7 @@ namespace TubeDl
 
         public static string Extention()
         {
-            
+
             var ext = TubeDlHelpers.video.Resolution.ToString();
             if (ext == "0")
                 return ".mp3";
@@ -37,7 +59,7 @@ namespace TubeDl
                 return ".Mp4";
 
         }
-      
+
 
         public static string GetFileSize(Uri uriPath)
         {

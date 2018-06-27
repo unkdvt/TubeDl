@@ -46,6 +46,7 @@
             this.transferrate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.added = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Combine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).BeginInit();
@@ -86,7 +88,7 @@
             this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(825, 61);
+            this.panel1.Size = new System.Drawing.Size(823, 61);
             this.panel1.TabIndex = 5;
             // 
             // btnTargetFolder
@@ -220,15 +222,16 @@
             this.downloaded_length,
             this.transferrate,
             this.status,
-            this.added});
+            this.added,
+            this.Combine});
             this.list_Items.ContextMenuStrip = this.contextMenuStrip1;
             this.list_Items.FullRowSelect = true;
             this.list_Items.GridLines = true;
             this.list_Items.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.list_Items.HideSelection = false;
-            this.list_Items.Location = new System.Drawing.Point(0, 86);
+            this.list_Items.Location = new System.Drawing.Point(0, 88);
             this.list_Items.Name = "list_Items";
-            this.list_Items.Size = new System.Drawing.Size(825, 309);
+            this.list_Items.Size = new System.Drawing.Size(823, 309);
             this.list_Items.TabIndex = 18;
             this.list_Items.UseCompatibleStateImageBehavior = false;
             this.list_Items.View = System.Windows.Forms.View.Details;
@@ -238,7 +241,7 @@
             // fname
             // 
             this.fname.Text = "Name";
-            this.fname.Width = 401;
+            this.fname.Width = 400;
             // 
             // total_length
             // 
@@ -252,7 +255,7 @@
             // transferrate
             // 
             this.transferrate.Text = "Transfer rate";
-            this.transferrate.Width = 79;
+            this.transferrate.Width = 80;
             // 
             // status
             // 
@@ -263,7 +266,12 @@
             // 
             this.added.Text = "Added";
             this.added.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.added.Width = 132;
+            this.added.Width = 130;
+            // 
+            // Combine
+            // 
+            this.Combine.Text = "Combine";
+            this.Combine.Width = 0;
             // 
             // contextMenuStrip1
             // 
@@ -343,7 +351,7 @@
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.label1.Location = new System.Drawing.Point(5, 66);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(413, 17);
+            this.label1.Size = new System.Drawing.Size(411, 17);
             this.label1.TabIndex = 21;
             this.label1.Text = "--";
             // 
@@ -358,7 +366,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 400);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(825, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(823, 22);
             this.statusStrip1.TabIndex = 22;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -368,11 +376,18 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(17, 17);
             this.toolStripStatusLabel1.Text = "--";
             // 
+            // backgroundWorker2
+            // 
+            this.backgroundWorker2.WorkerReportsProgress = true;
+            this.backgroundWorker2.WorkerSupportsCancellation = true;
+            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
+            this.backgroundWorker2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker2_RunWorkerCompleted);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 422);
+            this.ClientSize = new System.Drawing.Size(823, 422);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.list_Items);
@@ -430,5 +445,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ColumnHeader Combine;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
     }
 }
