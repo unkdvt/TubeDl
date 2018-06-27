@@ -207,7 +207,6 @@
             this.exButton1.TabStop = false;
             this.toolTip1.SetToolTip(this.exButton1, "Click to add new download");
             this.exButton1.Click += new System.EventHandler(this.exButton1_Click);
-            this.exButton1.MouseHover += new System.EventHandler(this.exButton1_MouseHover);
             // 
             // list_Items
             // 
@@ -382,6 +381,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).EndInit();

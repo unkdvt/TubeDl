@@ -12,16 +12,18 @@ namespace TubeDl
 {
     public partial class frmMain : Form
     {
+
+        //for testing : https://www.youtube.com/watch?v=IYfejxVZ7lg
         public frmMain()
         {
             InitializeComponent();
             System.Net.ServicePointManager.DefaultConnectionLimit = 100;
-            //initialize clipboard capture
             if (String.IsNullOrEmpty(Properties.Settings.Default.savepath))
             {
                 Properties.Settings.Default.savepath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
                 Properties.Settings.Default.Save();
             }
+            TubeDlHelpers.SavePath = Properties.Settings.Default.savepath;
             var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
             var ReleaseType = versionInfo.LegalTrademarks;
             Text = Application.ProductName + " " + Application.ProductVersion + ReleaseType;
@@ -99,7 +101,7 @@ namespace TubeDl
                 if (isYoutubeUrl)
                 {
                     Url = videoUrl;
-                    var select = new frmSelect(videoUrl);
+                    var select = new frmDownloadDialog(videoUrl);
                     switch (select.ShowDialog())
                     {
                         case DialogResult.OK:
@@ -113,7 +115,7 @@ namespace TubeDl
                             Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
                             break;
                         case DialogResult.Cancel:
-                            return;
+                            break;
                     }
                 }
             }
@@ -254,44 +256,33 @@ namespace TubeDl
 
         private void exButton1_Click(object sender, EventArgs e)
         {
-            // try
-            // {
-            nextClipboardViewer = IntPtr.Zero;
-            var videoUrl = (string)Clipboard.GetData(DataFormats.Text);
-            Url = videoUrl;
-            var add = new frmAddlink();
-            var select = new frmSelect(videoUrl);
-            switch (add.ShowDialog())
-            {
-                case DialogResult.OK:
-                    Download(TubeDlHelpers.downloadurl);
-                    break;
-                case DialogResult.Ignore:
-                    Download(TubeDlHelpers.downloadurl);
-                    TubeDlHelpers.ldf[list_Items.Items.Count].CancelDownload();
-                    break;
-                case DialogResult.Abort:
-                    Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                    break;
-            }
+            //////try
+            //////{
+                var videoUrl = (string)Clipboard.GetData(DataFormats.Text);
+                Url = videoUrl;
+                var add = new frmAddlink();
+                switch (add.ShowDialog())
+                {
+                    case DialogResult.OK:
+                        Download(TubeDlHelpers.downloadurl);
+                        break;
+                    case DialogResult.Ignore:
+                        Download(TubeDlHelpers.downloadurl);
+                        TubeDlHelpers.ldf[list_Items.Items.Count].CancelDownload();
+                        break;
+                    case DialogResult.Abort:
+                        Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
+                        break;
+                }
+//            }
+//            catch (Exception ex)
+//            {
+//#if DEBUG
+//                MessageBox.Show(ex.Message);
 
-
-
-
-
-
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //#if DEBUG
-            //                  MessageBox.Show(ex.Message);
-
-            //#endif
-            //            }
-            //            finally
-            //            {
-            //                nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
-            //            }
+//#endif
+//            }
+          
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -566,14 +557,21 @@ namespace TubeDl
             backgroundWorker1.RunWorkerAsync();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void exButton1_MouseHover(object sender, EventArgs e)
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            toolTip1.Show("Click to add new download", this);
+            int count = 0;
+            foreach (ListViewItem ls in list_Items.Items)
+            {
+                if (ls.SubItems[4].Text == "Downloading" || ls.SubItems[4].Text == "Paused")
+                    count++;
+            }
+
+            if (count > 0)
+            {
+                if (MessageBox.Show("There " + count + " reaming active downloads.\nDo you want to ext now?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+                    e.Cancel = true;
+            }
         }
     }
 }

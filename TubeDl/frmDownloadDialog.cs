@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace TubeDl
 {
-    public partial class frmSelect : Form
+    public partial class frmDownloadDialog : Form
     {
         string url_;
 
-        public frmSelect(string url)
+        public frmDownloadDialog(string url)
         {
             if (url == null)
                 Close();
@@ -29,14 +29,15 @@ namespace TubeDl
                     catchlink();
                 else
                 {
-                    Unkdevt.AutoClosingMsgBox.Show("Internet connection required!", Text, MessageBoxButtons.OK,
-                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, 5000);
+                    MessageBox.Show("Internet connection required!", Text, MessageBoxButtons.OK,
+                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     Close();
                 }
             }
-            catch
+            catch (Exception wx)
             {
-
+                MessageBox.Show(wx.Message);
+                Close();
             }
 
         }
@@ -159,11 +160,6 @@ namespace TubeDl
                     button1.Enabled = true;
                     button2.Enabled = true;
                     textBox1.Enabled = true;
-#if DEBUG
-                    //  textBox1.Text = imgurl;
-                    //  richTextBox1.Text = String.Join("\n", videoInfos).Replace(lbltitle.Text, "").Replace("Full", "").Replace("Title: ", "");
-
-#endif
                 }
             }
             catch (YoutubeParseException)

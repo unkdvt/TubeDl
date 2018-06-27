@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TubeDl
@@ -19,7 +12,7 @@ namespace TubeDl
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var new_ = new frmSelect(exTextBox1.Text.Trim());
+            var new_ = new frmDownloadDialog(exTextBox1.Text.Trim());
             if (new_.ShowDialog() == DialogResult.OK)
                 DialogResult = DialogResult.OK;
             Close();

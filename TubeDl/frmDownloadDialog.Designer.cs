@@ -1,6 +1,6 @@
 ﻿namespace TubeDl
 {
-    partial class frmSelect
+    partial class frmDownloadDialog
     {
         /// <summary>
         /// Required designer variable.
