@@ -1,8 +1,19 @@
-﻿namespace View.Size
+﻿using System.IO;
+using System.Text.RegularExpressions;
+
+namespace Unkdevt
 {
-    public static class getlength
+    public static class StringHelpers
     {
-  
+
+
+        public static string RemoveIllegalPathCharacters(string path)
+        {
+            string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            return r.Replace(path, "");
+        }
+
         public static string GetLengthString(double Length)
         {
             string Ext = "B";

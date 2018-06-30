@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,13 +48,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>TubeDl.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -54,41 +66,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="downloadFile.cs" />
+    <Compile Include="AutoClosingMsgBox.cs" />
+    <Compile Include="ExButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExButton.Designer.cs">
+      <DependentUpon>ExButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddlink.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddlink.Designer.cs">
+      <DependentUpon>frmAddlink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TubeDlHelpers.cs" />
     <Compile Include="ExTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="getlength.cs" />
-    <Compile Include="YTD\AacAudioExtractor.cs" />
-    <Compile Include="YTD\AdaptiveType.cs" />
-    <Compile Include="YTD\AudioDownloader.cs" />
-    <Compile Include="YTD\AudioExtractionException.cs" />
-    <Compile Include="YTD\AudioType.cs" />
-    <Compile Include="YTD\BigEndianBitConverter.cs" />
-    <Compile Include="YTD\BitHelper.cs" />
-    <Compile Include="YTD\Decipherer.cs" />
-    <Compile Include="YTD\Downloader.cs" />
-    <Compile Include="YTD\DownloadUrlResolver.cs" />
-    <Compile Include="YTD\FlvFile.cs" />
-    <Compile Include="Main.cs">
+    <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="YTD\HttpHelper.cs" />
-    <Compile Include="YTD\IAudioExtractor.cs" />
-    <Compile Include="YTD\Mp3AudioExtractor.cs" />
+    <Compile Include="frmDownloadDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDownloadDialog.Designer.cs">
+      <DependentUpon>frmDownloadDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="YTD\ProgressEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YTD\VideoDownloader.cs" />
-    <Compile Include="YTD\VideoInfo.cs" />
-    <Compile Include="YTD\VideoNotAvailableException.cs" />
-    <Compile Include="YTD\VideoType.cs" />
-    <Compile Include="YTD\YoutubeParseException.cs" />
-    <EmbeddedResource Include="Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
+    <EmbeddedResource Include="ExButton.resx">
+      <DependentUpon>ExButton.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddlink.resx">
+      <DependentUpon>frmAddlink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDownloadDialog.resx">
+      <DependentUpon>frmDownloadDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -100,7 +122,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -112,10 +133,159 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon_Red_X.png" />
+    <None Include="Resources\add_link_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_link_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_link_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download_folder_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download_folder_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download_folder_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mp3_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mp3_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mp3_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nointernet_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nointernet_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok_colore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\progress_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\progress_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause-color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_lack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-stop-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-plus-math-60 %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-menu-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\giphy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadHelper\DownloadHelper.csproj">
+      <Project>{53f79242-32e1-4cb3-9673-67d9549ab367}</Project>
+      <Name>DownloadHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libNet\libNet.csproj">
+      <Project>{41bbc108-d22d-4439-8bb7-b28ca2390bce}</Project>
+      <Name>libNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libstringHelper\libstringHelper.csproj">
+      <Project>{eae9a86d-87d3-4e95-9534-715ea8131a9f}</Project>
+      <Name>libstringHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libYtd\libYtd.csproj">
+      <Project>{ca29c7b7-9116-49d9-a6a3-ca26f19c4e34}</Project>
+      <Name>libYtd</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

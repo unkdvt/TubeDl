@@ -1,12 +1,10 @@
-﻿using System.Net;
-
-namespace DownloadHelper
+﻿namespace DownloadHelper
 {
-    public class downloadFile
+    public class downloadFile : System.IDisposable
     {
         #region Variables
         /// <summary>
-        /// Represent url of the file on the internet.
+        /// Represent url of the file on the Internet.
         /// </summary>
         System.Uri uri;
         /// <summary>
@@ -82,6 +80,15 @@ namespace DownloadHelper
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// File saved location
+        /// </summary>
+        public string FilePath
+        {
+            get { return filePath; }
+        }
+
         /// <summary>
         /// Total length of the file.
         /// </summary>
@@ -104,7 +111,7 @@ namespace DownloadHelper
         public string DownloadingSpeed
         {
             // {x:n1} Mean Math.round(x,2)
-            get { return View.Size.getlength.InternetSpeed(dSpeed); }
+            get { return Unkdevt.StringHelpers.InternetSpeed(dSpeed); }
         }
 
         /// <summary>
@@ -192,7 +199,7 @@ namespace DownloadHelper
             dsTimer.Start();
             // Set 'cancelDownload' to false, so that method can stop again.
             cancelDownload = false;
-          
+
             req = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
             // check if downloaded-length!=0 and !overwrite so the user want to resume.
             if (dLength > 0 && !overwrite)
@@ -201,8 +208,8 @@ namespace DownloadHelper
             using (res = (System.Net.HttpWebResponse)await req.GetResponseAsync())
             {
                 fLength = res.ContentLength + dLength; // get the total-size of the file.
-                eSize.Invoke(null, View.Size.getlength.GetLengthString(FileSize));       // update the total-size.
-                eDownloadedSize.Invoke(null, View.Size.getlength.GetLengthString(DownloadedLength)); // update the downloaded-length.
+                eSize.Invoke(null, Unkdevt.StringHelpers.GetLengthString(FileSize));       // update the total-size.
+                eDownloadedSize.Invoke(null, Unkdevt.StringHelpers.GetLengthString(DownloadedLength)); // update the downloaded-length.
                 dt = System.DateTime.Now;       // get the current time ( point of start downloading ).
                 using (stream = res.GetResponseStream())
                 {
@@ -223,8 +230,8 @@ namespace DownloadHelper
             dlTimer.Stop();
             dsTimer.Stop();
             isDownloading = false;
-           // eSpeed.Invoke(null, "0.0 Kb/s");    // update downloading-speed to 0.0 kb/s.
-            eDownloadedSize.Invoke(null,View.Size.getlength.GetLengthString( DownloadedLength)); // update downloaded-size.
+            // eSpeed.Invoke(null, "0.0 Kb/s");    // update downloading-speed to 0.0 kb/s.
+            eDownloadedSize.Invoke(null, Unkdevt.StringHelpers.GetLengthString(DownloadedLength)); // update downloaded-size.
             eDownloadState.Invoke(null, DownloadState);     // update download-state.
             fStream.Dispose();      // free file on harddisk by dispose 'fStream'.
         }
@@ -237,7 +244,7 @@ namespace DownloadHelper
         private void DlTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             // Call the event-handler.
-            eDownloadedSize.Invoke(null, View.Size.getlength.GetLengthString(DownloadedLength));
+            eDownloadedSize.Invoke(null, Unkdevt.StringHelpers.GetLengthString(DownloadedLength));
         }
 
         /// <summary>
