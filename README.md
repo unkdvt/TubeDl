@@ -1,20 +1,19 @@
 # TubeDl
-[Latest releas 1.0.0.0-beta](https://github.com/l4km47/TubeDl/releases/tag/0.1.0.0-beta) | 
-[All Releases](https://github.com/l4km47/TubeDl/releases)
+## Youtube video downloader
 
-##### Dev Branch
+[![Latest releas 0.1.0.1](https://intense-chamber-55169.herokuapp.com/release/l4km47/tubedl.svg)](https://github.com/l4km47/TubeDl/releases/tag/0.1.0.1)
 
-[![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=dev)](https://travis-ci.org/l4km47/TubeDl)
+[Roadmap #8](https://github.com/l4km47/TubeDl/issues/8) for next releases
 
-#### Master Branch
+| Dev Branch | Master Branch |
+|---|---|
+|[![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=master)](https://travis-ci.org/l4km47/TubeDl)|[![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=dev)](https://travis-ci.org/l4km47/TubeDl)|
 
-[![Build Status](https://travis-ci.org/l4km47/TubeDl.svg?branch=master)](https://travis-ci.org/l4km47/TubeDl)
-
-
+[![Downloads](https://intense-chamber-55169.herokuapp.com/downloads/l4km47/tubedl/total.svg)](https://github.com/l4km47/TubeDl/releases)
 [![GitHub License](https://intense-chamber-55169.herokuapp.com/license/l4km47/TubeDl.svg)](https://raw.githubusercontent.com/l4km47/TubeDl/master/LICENSE)
 [![Total Commits](https://intense-chamber-55169.herokuapp.com/commits/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/commits/master)
+[![Pull Requests](https://intense-chamber-55169.herokuapp.com/pulls/l4km47/tubedl.svg)](https://github.com/l4km47/TubeDl/pulls)
 [![Issues](https://intense-chamber-55169.herokuapp.com/issues/l4km47/TubeDl.svg)](https://github.com/l4km47/TubeDl/issues)
-## Youtube video downloader
 
 ### Source 
 
