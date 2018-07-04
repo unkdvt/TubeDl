@@ -2,7 +2,7 @@
 [Latest releas 0.1.0.1](https://github.com/l4km47/TubeDl/releases/tag/0.1.0.1) | 
 [All Releases](https://github.com/l4km47/TubeDl/releases)
 
-**[Roadmap](https://github.com/l4km47/TubeDl/issues/8) for next releases
+Roadmap #8 for next releases
 
 ##### Dev Branch
 
