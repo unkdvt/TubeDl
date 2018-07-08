@@ -18,22 +18,22 @@ namespace TubeDl
                 Close();
             InitializeComponent();
             url_ = exTextBox1.Text = url;
-            cmbQuality.SelectedIndex = 1;
+            cmbQuality.SelectedIndex = 3;
         }
 
         private void frmSelect_Load(object sender, EventArgs e)
         {
-
+            pictureBox1.Image = null;
             try
             {
-                if (Unkdevt.ConnectionHelpers.IsNetworkAvailablex)
-                    catchlink();
-                else
+                if (!Unkdevt.ConnectionHelpers.IsNetworkAvailablex)
+
                 {
                     MessageBox.Show("Internet connection required!", Text, MessageBoxButtons.OK,
                         MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     Close();
                 }
+                catchlink();
             }
             catch (Exception wx)
             {
@@ -45,10 +45,10 @@ namespace TubeDl
         private void btnOk_Click(object sender, EventArgs e)
         {
             TubeDlHelpers.Combine = false;
-            if (cmbQuality.SelectedIndex == 2 || cmbQuality.SelectedIndex == 4)
-            {
-                TubeDlHelpers.Combine = true;
-            }
+            //if (cmbQuality.SelectedIndex == 2 || cmbQuality.SelectedIndex == 4)
+            //{
+            //    TubeDlHelpers.Combine = true;
+            //}
             DialogResult = DialogResult.OK;
             Close();
         }

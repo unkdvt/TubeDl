@@ -532,27 +532,29 @@ namespace TubeDl
 
         private void deletePermenatlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            foreach (ListViewItem l in list_Items.SelectedItems)
-                if (list_Items.SelectedItems[l.Index].SubItems[4].Text == "Completed" || list_Items.SelectedItems[l.Index].SubItems[4].Text == "Paused")
+            //try
+            //{
+                // foreach (ListViewItem l in list_Items.SelectedItems)
+                if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed" || list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
                 {
                     if (MessageBox.Show("Are you sure, Do you want to move this file into recycle bin?", Text,
                              MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                     {
                         try
                         {
-
-                            FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text)
+                            FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text)
                                 , UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.ThrowException);
                             //  File.Delete(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text));
                             TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
-                            list_Items.SelectedItems[l.Index].Remove();
+                            list_Items.SelectedItems[0].Remove();
 
                         }
                         catch { }
                     }
                 }
-            Updatelist();
+                Updatelist();
+            //}
+            //catch { }
         }
 
         private void btnStopDownload_Click(object sender, EventArgs e)
