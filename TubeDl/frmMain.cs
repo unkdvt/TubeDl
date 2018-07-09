@@ -73,6 +73,8 @@ namespace TubeDl
             switch (m.Msg)
             {
                 case WM_DRAWCLIPBOARD:
+
+
                     DisplayClipboardData();
                     SendMessage(nextClipboardViewer, m.Msg, m.WParam, m.LParam);
                     break;
@@ -96,56 +98,60 @@ namespace TubeDl
             {
 
                 var videoUrl = (string)Clipboard.GetData(DataFormats.Text);
-                //  Clipboard.Clear();
                 bool isYoutubeUrl = DownloadUrlResolver.TryNormalizeYoutubeUrl(videoUrl, out videoUrl);
-                if (isYoutubeUrl)
-                {
-                    Url = videoUrl;
-                    var select = new frmDownloadDialog(videoUrl);
-                    switch (select.ShowDialog())
+                var select = new frmDownloadDialog(videoUrl);
+
+                Form fc = Application.OpenForms[select.Name];//multipe time opening bug fixed
+
+                if (fc == null)
+                    if (isYoutubeUrl)
                     {
-                        case DialogResult.OK:
-                            if (TubeDlHelpers.Combine)
-                            {
-                                if (TubeDlHelpers.Custome)
+                        Url = videoUrl;
+
+                        switch (select.ShowDialog())
+                        {
+                            case DialogResult.OK:
+                                if (TubeDlHelpers.Combine)
                                 {
-                                    Download(TubeDlHelpers.downloadurl,
-                                        true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                                    Download(TubeDlHelpers.downloadurl,
-                                           true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName.Replace(".mp4", ".mp3"));
-                                    combineid++;
+                                    if (TubeDlHelpers.Custome)
+                                    {
+                                        Download(TubeDlHelpers.downloadurl,
+                                            true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
+                                        Download(TubeDlHelpers.downloadurl,
+                                               true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName.Replace(".mp4", ".mp3"));
+                                        combineid++;
+                                    }
+                                    else
+                                    {
+                                        string vname = StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
+                           + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + ".mp4";
+
+                                        string aname = StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
+                           + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + ".mp3";
+
+                                        Download(TubeDlHelpers.downloadurl,
+                                          true, TubeDlHelpers.SavePath, vname);
+                                        Download(TubeDlHelpers.downloadurl,
+                                               true, TubeDlHelpers.SavePath, aname);
+                                        combineid++;
+                                    }
                                 }
+                                else if (TubeDlHelpers.Custome)
+                                    Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
                                 else
-                                {
-                                    string vname = StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
-                       + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + ".mp4";
+                                    Download(TubeDlHelpers.downloadurl);
+                                break;
 
-                                    string aname = StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
-                       + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + ".mp3";
+                            case DialogResult.Ignore:
+                                if (TubeDlHelpers.Custome)
+                                    Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
+                                else
+                                    Download(TubeDlHelpers.downloadurl);
+                                TubeDlHelpers.ldf[list_Items.Items.Count - 1].CancelDownload();
+                                break;
 
-                                    Download(TubeDlHelpers.downloadurl,
-                                      true, TubeDlHelpers.SavePath, vname);
-                                    Download(TubeDlHelpers.downloadurl,
-                                           true, TubeDlHelpers.SavePath, aname);
-                                    combineid++;
-                                }
-                            }
-                            else if (TubeDlHelpers.Custome)
-                                Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                            else
-                                Download(TubeDlHelpers.downloadurl);
-                            break;
-
-                        case DialogResult.Ignore:
-                            if (TubeDlHelpers.Custome)
-                                Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                            else
-                                Download(TubeDlHelpers.downloadurl);
-                            TubeDlHelpers.ldf[list_Items.Items.Count - 1].CancelDownload();
-                            break;
-
+                        }
                     }
-                }
             }
             catch (Exception e)
             {
@@ -207,70 +213,53 @@ namespace TubeDl
 
                     if (File.Exists(Path.Combine(custome ? path : path_, vname)))
                     {
-                        if (MessageBox.Show("\'" + vname + "\' Already exist in " + path_ + "\r\nReplace file in destination ? ", Text,
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        var msg = new MsgBox("\'" + vname + "\' Already exist in " + path_ +
+                            "\r\nReplace file in destination ? ", Text, "Replace", "Add duplicate", DialogResult.Yes, DialogResult.No);
+                        switch (msg.ShowDialog())
                         {
-                            File.Delete(Path.Combine(path_, vname));
+                            case DialogResult.Yes:
+                                File.Delete(Path.Combine(path_, vname));
+                                break;
+                            case DialogResult.No:
+                                int count = 0;
+                                string added;
 
-                            int indx = list_Items.Items.Count;
-                            list_Items.Items.Add(vname);
-                            for (int i = 1; i < 7; i++)
-                            {
-                                list_Items.Items[indx].SubItems.Add("");
-                            }
-                            list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString();
+                                do
+                                {
+                                    count++;
+                                    added = "(" + count + ")";
+                                } while (File.Exists(Path.Combine(custome ? path : path_, vname.Replace(ext, " " + added + ext))));
 
-                            if (TubeDlHelpers.Combine)
-                            {
-                                list_Items.Items[indx].SubItems[6].Text = combineid.ToString();
-                            }
-                            DownloadHelper.downloadFile d =
-                                new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
-                            TubeDlHelpers.ldf.Add(d);
-
-                            Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                            {
-                                list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
-                            });
-
-                            d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
-                            d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                            d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
-                            d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
-                        }
-                        else
-                        {
-                            // btndownload.Enabled = true;
-                            // btnPause.Enabled = false;
+                                vname = vname.Replace(ext, " " + added + ext);
+                                break;
                         }
                     }
-                    else
+                    int indx = list_Items.Items.Count;
+                    list_Items.Items.Add(vname);
+                    for (int i = 1; i < 7; i++)
                     {
-                        int indx = list_Items.Items.Count;
-                        list_Items.Items.Add(vname);
-                        for (int i = 1; i < 7; i++)
-                        {
-                            list_Items.Items[indx].SubItems.Add("");
-                        }
-                        list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString();
-                        if (TubeDlHelpers.Combine)
-                        {
-                            list_Items.Items[indx].SubItems[6].Text = combineid.ToString();
-                        }
-                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
-                        TubeDlHelpers.ldf.Add(d);
-
-                        Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                        {
-                            list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
-                        });
-
-                        d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
-                        d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                        d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
-                        d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
+                        list_Items.Items[indx].SubItems.Add("");
                     }
+                    list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString();
+                    if (TubeDlHelpers.Combine)
+                    {
+                        list_Items.Items[indx].SubItems[6].Text = combineid.ToString();
+                    }
+                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
+                    TubeDlHelpers.ldf.Add(d);
+
+                    Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
+                    {
+                        list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
+                    });
+
+                    d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
+                    d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, String.Format("{0} ({1})", size,
+                        Math.Round((TubeDlHelpers.ldf[indx].DownloadedLength / TubeDlHelpers.filesize) * 100) + "%"));
+                    d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
+                    d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                 }
+
             }
             catch (Exception ex)
             {
@@ -285,6 +274,7 @@ namespace TubeDl
 
         private void OpenLocation()
         {
+
             if (list_Items.SelectedItems.Count == 1)
                 Process.Start("explorer.exe", "/select," + TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].FilePath);
             else
@@ -357,7 +347,7 @@ namespace TubeDl
             nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
             label1.Text = string.Format("{0} : {1}", "Default Download Location", TubeDlHelpers.savePath);
             backgroundWorker1.RunWorkerAsync();
-            backgroundWorker2.RunWorkerAsync();
+            // backgroundWorker2.RunWorkerAsync();
 
         }
 
@@ -486,7 +476,7 @@ namespace TubeDl
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenLocation();
+            Process.Start("explorer.exe", TubeDlHelpers.ldf[list_Items.SelectedItems[0].Index].FilePath);
             Updatelist();
 
         }
@@ -501,29 +491,28 @@ namespace TubeDl
         {
             try
             {
-                foreach (ListViewItem l in list_Items.SelectedItems)
-                {
-                    if (list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
-                    {
-                        try
-                        {
-                            TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[l.Index].Index);
-                        }
-                        catch { }
-                        try
-                        {
 
-                            File.Delete(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text));
-                        }
-                        catch { }
-                        list_Items.SelectedItems[l.Index].Remove();
-                    }
-                    if (list_Items.SelectedItems[l.Index].SubItems[4].Text == "Completed")
+                if (list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+                {
+                    try
                     {
                         TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
-                        list_Items.SelectedItems[l.Index].Remove();
                     }
+                    catch { }
+                    try
+                    {
+
+                        File.Delete(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text));
+                    }
+                    catch { }
+                    list_Items.SelectedItems[0].Remove();
                 }
+                if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed")
+                {
+                    TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
+                    list_Items.SelectedItems[0].Remove();
+                }
+
             }
             catch { }
             Updatelist();
@@ -532,40 +521,42 @@ namespace TubeDl
 
         private void deletePermenatlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            foreach (ListViewItem l in list_Items.SelectedItems)
-                if (list_Items.SelectedItems[l.Index].SubItems[4].Text == "Completed" || list_Items.SelectedItems[l.Index].SubItems[4].Text == "Paused")
+            //try
+            //{
+            // foreach (ListViewItem l in list_Items.SelectedItems)
+            if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed" || list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+            {
+                if (MessageBox.Show("Are you sure, Do you want to move this file into recycle bin?", Text,
+                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
-                    if (MessageBox.Show("Are you sure, Do you want to move this file into recycle bin?", Text,
-                             MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                    try
                     {
-                        try
-                        {
+                        FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text)
+                            , UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.ThrowException);
+                        //  File.Delete(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text));
+                        TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
+                        list_Items.SelectedItems[0].Remove();
 
-                            FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text)
-                                , UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.ThrowException);
-                            //  File.Delete(Path.Combine(path_, list_Items.SelectedItems[l.Index].SubItems[0].Text));
-                            TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
-                            list_Items.SelectedItems[l.Index].Remove();
-
-                        }
-                        catch { }
                     }
+                    catch { }
                 }
+            }
             Updatelist();
+            //}
+            //catch { }
         }
 
         private void btnStopDownload_Click(object sender, EventArgs e)
         {
-            try
-            {
-                foreach (ListViewItem l in list_Items.Items)
-                    if (list_Items.Items[l.Index].SubItems[4].Text == "Downloading")
-                    {
-                        TubeDlHelpers.ldf[list_Items.Items[l.Index].Index].CancelDownload();
-                    }
-            }
-            catch { }
+            //try
+            //{
+            //    foreach (ListViewItem l in list_Items.Items)
+            //        if (list_Items.Items[0].SubItems[4].Text == "Downloading")
+            //        {
+            //            TubeDlHelpers.ldf[list_Items.Items[0].Index].CancelDownload();
+            //        }
+            //}
+            //catch { }
         }
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -586,7 +577,7 @@ namespace TubeDl
                                 Invoke(new Action(() => items.BackColor = Color.Yellow));
                                 break;
                             case "Downloading":
-                                Invoke(new Action(() => items.BackColor = Color.SteelBlue));
+                                Invoke(new Action(() => items.BackColor = Color.AliceBlue));
                                 break;
                             case "Combining..":
                                 Invoke(new Action(() => items.BackColor = Color.DarkOrange));
@@ -674,89 +665,101 @@ namespace TubeDl
 
         private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            try
-            {
-                if (!TubeDlHelpers.Custome)
-                {
+            //try
+            //{
+            //    if (!TubeDlHelpers.Custome)
+            //    {
 
-                    BeginInvoke((MethodInvoker)delegate
-                    {
+            //        BeginInvoke((MethodInvoker)delegate
+            //        {
 
-                        foreach (ListViewItem item in list_Items.Items)
-                        {
-                            try
-                            {
-                                if (item.SubItems[4].Text == "Completed")
-                                    if (item.SubItems[6].Text == list_Items.Items[item.Index + 1].SubItems[6].Text)
-                                    {
-                                        var s = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
-                                            list_Items.Items[item.Index].Text);
-                                        var dis = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
-                                            "video.mp4");
-                                        File.Move(s, dis);
+            //            foreach (ListViewItem item in list_Items.Items)
+            //            {
+            //                try
+            //                {
+            //                    if (item.SubItems[4].Text == "Completed")
+            //                        if (item.SubItems[6].Text == list_Items.Items[item.Index + 1].SubItems[6].Text)
+            //                        {
+            //                            var s = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
+            //                                list_Items.Items[item.Index].Text);
+            //                            var dis = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
+            //                                "video.mp4");
+            //                            File.Move(s, dis);
 
-                                        var s1 = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
-                                            list_Items.Items[item.Index + 1].Text);
-                                        var dis1 = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
-                                            "audio.mp3");
-                                        File.Move(s1, dis1);
+            //                            var s1 = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
+            //                                list_Items.Items[item.Index + 1].Text);
+            //                            var dis1 = Path.Combine(TubeDlHelpers.Custome ? Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath,
+            //                                "audio.mp3");
+            //                            File.Move(s1, dis1);
 
-                                        MessageBox.Show(s + "\n" + dis);
-                                        MessageBox.Show(s1 + "\n" + dis1);
-                                        MessageBox.Show(Path.Combine(TubeDlHelpers.Custome ?
-                                        Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath, item.Text));
+            //                            MessageBox.Show(s + "\n" + dis);
+            //                            MessageBox.Show(s1 + "\n" + dis1);
+            //                            MessageBox.Show(Path.Combine(TubeDlHelpers.Custome ?
+            //                            Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath, item.Text));
 
-                                        Process process = new Process();
-                                        process.StartInfo.WorkingDirectory = Application.StartupPath;
-                                        process.StartInfo.FileName = "ffmpeg.exe";
-                                        process.StartInfo.Arguments = "-i " + dis + " -i " + dis1
-                                        + " -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 " + Path.Combine(TubeDlHelpers.Custome ?
-                                        Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath, item.Text);
-                                        process.StartInfo.UseShellExecute = false;
-                                        process.StartInfo.CreateNoWindow = true;
-                                        process.StartInfo.RedirectStandardError = true;
-                                        process.Exited += Process_Exited;
-                                        process.ErrorDataReceived += new DataReceivedEventHandler((sendexr, ex) =>
-                                        {
-                                            // Prepend line numbers to each line of the output.
-                                            if (!String.IsNullOrEmpty(ex.Data))
-                                            {
-                                                if (!ex.Data.Contains("overhead"))
-                                                {
-                                                    Invoke(new Action(() => item.SubItems[6].Text = "Combining.."));
-                                                }
-                                                else
-                                                {
-                                                    Invoke(new Action(() => item.SubItems[6].Text = "Completed"));
-                                                    Invoke(new Action(() => list_Items.Items[item.Index + 1].Remove()));
-                                                    Invoke(new Action(() => TubeDlHelpers.ldf.RemoveAt(item.Index + 1)));
-                                                }
-                                            }
-                                        });
+            //                            Process process = new Process();
+            //                            process.StartInfo.WorkingDirectory = Application.StartupPath;
+            //                            process.StartInfo.FileName = "ffmpeg.exe";
+            //                            process.StartInfo.Arguments = "-i " + dis + " -i " + dis1
+            //                            + " -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 " + Path.Combine(TubeDlHelpers.Custome ?
+            //                            Path.GetDirectoryName(TubeDlHelpers.customSavePath) : TubeDlHelpers.SavePath, item.Text);
+            //                            process.StartInfo.UseShellExecute = false;
+            //                            process.StartInfo.CreateNoWindow = true;
+            //                            process.StartInfo.RedirectStandardError = true;
+            //                            process.Exited += Process_Exited;
+            //                            process.ErrorDataReceived += new DataReceivedEventHandler((sendexr, ex) =>
+            //                            {
+            //                                // Prepend line numbers to each line of the output.
+            //                                if (!String.IsNullOrEmpty(ex.Data))
+            //                                {
+            //                                    if (!ex.Data.Contains("overhead"))
+            //                                    {
+            //                                        Invoke(new Action(() => item.SubItems[6].Text = "Combining.."));
+            //                                    }
+            //                                    else
+            //                                    {
+            //                                        Invoke(new Action(() => item.SubItems[6].Text = "Completed"));
+            //                                        Invoke(new Action(() => list_Items.Items[item.Index + 1].Remove()));
+            //                                        Invoke(new Action(() => TubeDlHelpers.ldf.RemoveAt(item.Index + 1)));
+            //                                    }
+            //                                }
+            //                            });
 
-                                        process.Start();
+            //                            process.Start();
 
-                                        // Asynchronously read the standard output of the spawned process. 
-                                        // This raises OutputDataReceived events for each line of output.
-                                        process.BeginErrorReadLine();
+            //                            // Asynchronously read the standard output of the spawned process. 
+            //                            // This raises OutputDataReceived events for each line of output.
+            //                            process.BeginErrorReadLine();
 
-                                    }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                        }
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //                        }
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    MessageBox.Show(ex.Message);
+            //                }
+            //            }
+            //        });
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
         private void Process_Exited(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var msg = new MsgBox("Already exist in \r\nReplace file in destination ? ", Text, "Replace", "Add duplicate", DialogResult.Yes, DialogResult.No);
+            msg.ShowDialog();
+        }
+
+        private void list_Items_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            toolTip1.SetToolTip(this.list_Items, e.Item.Text);
 
         }
     }

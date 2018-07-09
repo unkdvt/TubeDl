@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Unknown Devt")]
 [assembly: AssemblyProduct("Unknown Devt TubeDl")]
-[assembly: AssemblyCopyright("Copyright ©  2018 Unkdevt")]
-[assembly: AssemblyTrademark("beta")]
+[assembly: AssemblyCopyright("Copyright © 2018 Unkdevt")]
+[assembly: AssemblyTrademark("beta2")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

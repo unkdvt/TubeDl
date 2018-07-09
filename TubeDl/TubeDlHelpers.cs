@@ -60,7 +60,7 @@ namespace TubeDl
 
         }
 
-
+        public static Double filesize;
         public static string GetFileSize(Uri uriPath)
         {
             var webRequest = HttpWebRequest.Create(uriPath);
@@ -71,6 +71,7 @@ namespace TubeDl
                 var fileSize = webResponse.Headers.Get("Content-Length");
                 var fileSizeInMegaByte = Unkdevt.StringHelpers.GetLengthString(Math.Round(
                     Convert.ToDouble(fileSize)));
+                filesize = Convert.ToDouble(fileSize);
                 return fileSizeInMegaByte;
             }
         }
