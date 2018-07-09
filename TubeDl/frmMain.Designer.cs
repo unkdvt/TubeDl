@@ -31,14 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnTargetFolder = new TubeDl.ExButton();
-            this.btnRemove = new TubeDl.ExButton();
-            this.btnDelete = new TubeDl.ExButton();
-            this.btnStopDownload = new TubeDl.ExButton();
-            this.btnPauseDownload = new TubeDl.ExButton();
-            this.btnStartDownload = new TubeDl.ExButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.exButton1 = new TubeDl.ExButton();
             this.list_Items = new System.Windows.Forms.ListView();
             this.fname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.total_length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -61,17 +54,24 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.btnTargetFolder = new TubeDl.ExButton();
+            this.btnRemove = new TubeDl.ExButton();
+            this.btnDelete = new TubeDl.ExButton();
+            this.btnStopDownload = new TubeDl.ExButton();
+            this.btnPauseDownload = new TubeDl.ExButton();
+            this.btnStartDownload = new TubeDl.ExButton();
+            this.exButton1 = new TubeDl.ExButton();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStopDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPauseDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartDownload)).BeginInit();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.exButton1)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -91,101 +91,6 @@
             this.panel1.Size = new System.Drawing.Size(823, 61);
             this.panel1.TabIndex = 5;
             // 
-            // btnTargetFolder
-            // 
-            this.btnTargetFolder.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTargetFolder.Image = global::TubeDl.Properties.Resources.download_folder_color;
-            this.btnTargetFolder.ImageDisable = global::TubeDl.Properties.Resources.download_folder_gray;
-            this.btnTargetFolder.ImageEnable = global::TubeDl.Properties.Resources.download_folder_color;
-            this.btnTargetFolder.Location = new System.Drawing.Point(355, 13);
-            this.btnTargetFolder.Name = "btnTargetFolder";
-            this.btnTargetFolder.Size = new System.Drawing.Size(32, 32);
-            this.btnTargetFolder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnTargetFolder.TabIndex = 21;
-            this.btnTargetFolder.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnTargetFolder, "Click to Open target location");
-            this.btnTargetFolder.Click += new System.EventHandler(this.btnTargetFolder_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemove.Enabled = false;
-            this.btnRemove.Image = global::TubeDl.Properties.Resources.delete_color;
-            this.btnRemove.ImageDisable = global::TubeDl.Properties.Resources.delete_gray;
-            this.btnRemove.ImageEnable = global::TubeDl.Properties.Resources.delete_color;
-            this.btnRemove.Location = new System.Drawing.Point(221, 13);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(32, 32);
-            this.btnRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnRemove.TabIndex = 20;
-            this.btnRemove.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnRemove, "Click to remove selection from list");
-            this.btnRemove.Click += new System.EventHandler(this.removeFromListToolStripMenuItem_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDelete.Enabled = false;
-            this.btnDelete.Image = global::TubeDl.Properties.Resources.remove_color;
-            this.btnDelete.ImageDisable = global::TubeDl.Properties.Resources.remove_gray;
-            this.btnDelete.ImageEnable = global::TubeDl.Properties.Resources.remove_color;
-            this.btnDelete.Location = new System.Drawing.Point(289, 13);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(32, 32);
-            this.btnDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnDelete.TabIndex = 19;
-            this.btnDelete.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnDelete, "Click to delete selected iteme to recycle bin");
-            this.btnDelete.Click += new System.EventHandler(this.deletePermenatlyToolStripMenuItem_Click);
-            // 
-            // btnStopDownload
-            // 
-            this.btnStopDownload.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStopDownload.Enabled = false;
-            this.btnStopDownload.Image = global::TubeDl.Properties.Resources.stop_color;
-            this.btnStopDownload.ImageDisable = global::TubeDl.Properties.Resources.stop_gray;
-            this.btnStopDownload.ImageEnable = global::TubeDl.Properties.Resources.stop_color;
-            this.btnStopDownload.Location = new System.Drawing.Point(422, 13);
-            this.btnStopDownload.Name = "btnStopDownload";
-            this.btnStopDownload.Size = new System.Drawing.Size(32, 32);
-            this.btnStopDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnStopDownload.TabIndex = 18;
-            this.btnStopDownload.TabStop = false;
-            this.btnStopDownload.Visible = false;
-            this.btnStopDownload.Click += new System.EventHandler(this.btnStopDownload_Click);
-            // 
-            // btnPauseDownload
-            // 
-            this.btnPauseDownload.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPauseDownload.Enabled = false;
-            this.btnPauseDownload.Image = global::TubeDl.Properties.Resources.pause_color;
-            this.btnPauseDownload.ImageDisable = global::TubeDl.Properties.Resources.pause_gray;
-            this.btnPauseDownload.ImageEnable = global::TubeDl.Properties.Resources.pause_color;
-            this.btnPauseDownload.Location = new System.Drawing.Point(153, 13);
-            this.btnPauseDownload.Name = "btnPauseDownload";
-            this.btnPauseDownload.Size = new System.Drawing.Size(32, 32);
-            this.btnPauseDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnPauseDownload.TabIndex = 17;
-            this.btnPauseDownload.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnPauseDownload, "Click to pause download");
-            this.btnPauseDownload.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
-            // 
-            // btnStartDownload
-            // 
-            this.btnStartDownload.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStartDownload.Enabled = false;
-            this.btnStartDownload.Image = global::TubeDl.Properties.Resources.start_color;
-            this.btnStartDownload.ImageDisable = global::TubeDl.Properties.Resources.start_gray;
-            this.btnStartDownload.ImageEnable = global::TubeDl.Properties.Resources.start_color;
-            this.btnStartDownload.Location = new System.Drawing.Point(80, 13);
-            this.btnStartDownload.Name = "btnStartDownload";
-            this.btnStartDownload.Size = new System.Drawing.Size(32, 32);
-            this.btnStartDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnStartDownload.TabIndex = 16;
-            this.btnStartDownload.TabStop = false;
-            this.toolTip1.SetToolTip(this.btnStartDownload, "click to start download");
-            this.btnStartDownload.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MediumBlue;
@@ -194,21 +99,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(66, 67);
             this.panel2.TabIndex = 16;
-            // 
-            // exButton1
-            // 
-            this.exButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.exButton1.Image = global::TubeDl.Properties.Resources.add_white;
-            this.exButton1.ImageDisable = ((System.Drawing.Image)(resources.GetObject("exButton1.ImageDisable")));
-            this.exButton1.ImageEnable = global::TubeDl.Properties.Resources.add_white;
-            this.exButton1.Location = new System.Drawing.Point(16, 17);
-            this.exButton1.Name = "exButton1";
-            this.exButton1.Size = new System.Drawing.Size(32, 32);
-            this.exButton1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.exButton1.TabIndex = 15;
-            this.exButton1.TabStop = false;
-            this.toolTip1.SetToolTip(this.exButton1, "Click to add new download");
-            this.exButton1.Click += new System.EventHandler(this.exButton1_Click);
             // 
             // list_Items
             // 
@@ -235,13 +125,14 @@
             this.list_Items.TabIndex = 18;
             this.list_Items.UseCompatibleStateImageBehavior = false;
             this.list_Items.View = System.Windows.Forms.View.Details;
+            this.list_Items.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.list_Items_ItemMouseHover);
             this.list_Items.SelectedIndexChanged += new System.EventHandler(this.list_Items_SelectedIndexChanged);
             this.list_Items.MouseClick += new System.Windows.Forms.MouseEventHandler(this.list_Items_MouseClick);
             // 
             // fname
             // 
             this.fname.Text = "Name";
-            this.fname.Width = 400;
+            this.fname.Width = 294;
             // 
             // total_length
             // 
@@ -251,6 +142,7 @@
             // 
             this.downloaded_length.Text = "Progress";
             this.downloaded_length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.downloaded_length.Width = 149;
             // 
             // transferrate
             // 
@@ -383,6 +275,116 @@
             this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             this.backgroundWorker2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker2_RunWorkerCompleted);
             // 
+            // btnTargetFolder
+            // 
+            this.btnTargetFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTargetFolder.Image = global::TubeDl.Properties.Resources.download_folder_color;
+            this.btnTargetFolder.ImageDisable = global::TubeDl.Properties.Resources.download_folder_gray;
+            this.btnTargetFolder.ImageEnable = global::TubeDl.Properties.Resources.download_folder_color;
+            this.btnTargetFolder.Location = new System.Drawing.Point(355, 13);
+            this.btnTargetFolder.Name = "btnTargetFolder";
+            this.btnTargetFolder.Size = new System.Drawing.Size(32, 32);
+            this.btnTargetFolder.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnTargetFolder.TabIndex = 21;
+            this.btnTargetFolder.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnTargetFolder, "Click to Open target location");
+            this.btnTargetFolder.Click += new System.EventHandler(this.btnTargetFolder_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemove.Enabled = false;
+            this.btnRemove.Image = global::TubeDl.Properties.Resources.delete_color;
+            this.btnRemove.ImageDisable = global::TubeDl.Properties.Resources.delete_gray;
+            this.btnRemove.ImageEnable = global::TubeDl.Properties.Resources.delete_color;
+            this.btnRemove.Location = new System.Drawing.Point(221, 13);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(32, 32);
+            this.btnRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnRemove.TabIndex = 20;
+            this.btnRemove.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnRemove, "Click to remove selection from list");
+            this.btnRemove.Click += new System.EventHandler(this.removeFromListToolStripMenuItem_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Image = global::TubeDl.Properties.Resources.remove_color;
+            this.btnDelete.ImageDisable = global::TubeDl.Properties.Resources.remove_gray;
+            this.btnDelete.ImageEnable = global::TubeDl.Properties.Resources.remove_color;
+            this.btnDelete.Location = new System.Drawing.Point(289, 13);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(32, 32);
+            this.btnDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnDelete.TabIndex = 19;
+            this.btnDelete.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnDelete, "Click to delete selected iteme to recycle bin");
+            this.btnDelete.Click += new System.EventHandler(this.deletePermenatlyToolStripMenuItem_Click);
+            // 
+            // btnStopDownload
+            // 
+            this.btnStopDownload.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStopDownload.Enabled = false;
+            this.btnStopDownload.Image = global::TubeDl.Properties.Resources.stop_color;
+            this.btnStopDownload.ImageDisable = global::TubeDl.Properties.Resources.stop_gray;
+            this.btnStopDownload.ImageEnable = global::TubeDl.Properties.Resources.stop_color;
+            this.btnStopDownload.Location = new System.Drawing.Point(422, 13);
+            this.btnStopDownload.Name = "btnStopDownload";
+            this.btnStopDownload.Size = new System.Drawing.Size(32, 32);
+            this.btnStopDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnStopDownload.TabIndex = 18;
+            this.btnStopDownload.TabStop = false;
+            this.btnStopDownload.Visible = false;
+            this.btnStopDownload.Click += new System.EventHandler(this.btnStopDownload_Click);
+            // 
+            // btnPauseDownload
+            // 
+            this.btnPauseDownload.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPauseDownload.Enabled = false;
+            this.btnPauseDownload.Image = global::TubeDl.Properties.Resources.pause_color;
+            this.btnPauseDownload.ImageDisable = global::TubeDl.Properties.Resources.pause_gray;
+            this.btnPauseDownload.ImageEnable = global::TubeDl.Properties.Resources.pause_color;
+            this.btnPauseDownload.Location = new System.Drawing.Point(153, 13);
+            this.btnPauseDownload.Name = "btnPauseDownload";
+            this.btnPauseDownload.Size = new System.Drawing.Size(32, 32);
+            this.btnPauseDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnPauseDownload.TabIndex = 17;
+            this.btnPauseDownload.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnPauseDownload, "Click to pause download");
+            this.btnPauseDownload.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
+            // btnStartDownload
+            // 
+            this.btnStartDownload.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStartDownload.Enabled = false;
+            this.btnStartDownload.Image = global::TubeDl.Properties.Resources.start_color;
+            this.btnStartDownload.ImageDisable = global::TubeDl.Properties.Resources.start_gray;
+            this.btnStartDownload.ImageEnable = global::TubeDl.Properties.Resources.start_color;
+            this.btnStartDownload.Location = new System.Drawing.Point(80, 13);
+            this.btnStartDownload.Name = "btnStartDownload";
+            this.btnStartDownload.Size = new System.Drawing.Size(32, 32);
+            this.btnStartDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnStartDownload.TabIndex = 16;
+            this.btnStartDownload.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnStartDownload, "click to start download");
+            this.btnStartDownload.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
+            // 
+            // exButton1
+            // 
+            this.exButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.exButton1.Image = global::TubeDl.Properties.Resources.add_white;
+            this.exButton1.ImageDisable = ((System.Drawing.Image)(resources.GetObject("exButton1.ImageDisable")));
+            this.exButton1.ImageEnable = global::TubeDl.Properties.Resources.add_white;
+            this.exButton1.Location = new System.Drawing.Point(16, 17);
+            this.exButton1.Name = "exButton1";
+            this.exButton1.Size = new System.Drawing.Size(32, 32);
+            this.exButton1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.exButton1.TabIndex = 15;
+            this.exButton1.TabStop = false;
+            this.toolTip1.SetToolTip(this.exButton1, "Click to add new download");
+            this.exButton1.Click += new System.EventHandler(this.exButton1_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,17 +401,17 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStopDownload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPauseDownload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartDownload)).EndInit();
-            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.exButton1)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
