@@ -213,70 +213,52 @@ namespace TubeDl
 
                     if (File.Exists(Path.Combine(custome ? path : path_, vname)))
                     {
-                        if (MessageBox.Show("\'" + vname + "\' Already exist in " + path_ + "\r\nReplace file in destination ? ", Text,
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        var msg = new MsgBox("\'" + vname + "\' Already exist in " + path_ +
+                            "\r\nReplace file in destination ? ", Text, "Replace", "Add duplicate", DialogResult.Yes, DialogResult.No);
+                        switch (msg.ShowDialog())
                         {
-                            File.Delete(Path.Combine(path_, vname));
+                            case DialogResult.Yes:
+                                File.Delete(Path.Combine(path_, vname));
+                                break;
+                            case DialogResult.No:
+                                int count = 0;
+                                string added;
 
-                            int indx = list_Items.Items.Count;
-                            list_Items.Items.Add(vname);
-                            for (int i = 1; i < 7; i++)
-                            {
-                                list_Items.Items[indx].SubItems.Add("");
-                            }
-                            list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString();
+                                do
+                                {
+                                    count++;
+                                    added = "(" + count + ")";
+                                } while (File.Exists(Path.Combine(custome ? path : path_, vname.Replace(ext, " " + added + ext))));
 
-                            if (TubeDlHelpers.Combine)
-                            {
-                                list_Items.Items[indx].SubItems[6].Text = combineid.ToString();
-                            }
-                            DownloadHelper.downloadFile d =
-                                new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
-                            TubeDlHelpers.ldf.Add(d);
-
-                            Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                            {
-                                list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
-                            });
-
-                            d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
-                            d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                            d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
-                            d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
-                        }
-                        else
-                        {
-                            // btndownload.Enabled = true;
-                            // btnPause.Enabled = false;
+                                vname = vname.Replace(ext, " " + added + ext);
+                                break;
                         }
                     }
-                    else
+                    int indx = list_Items.Items.Count;
+                    list_Items.Items.Add(vname);
+                    for (int i = 1; i < 7; i++)
                     {
-                        int indx = list_Items.Items.Count;
-                        list_Items.Items.Add(vname);
-                        for (int i = 1; i < 7; i++)
-                        {
-                            list_Items.Items[indx].SubItems.Add("");
-                        }
-                        list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString();
-                        if (TubeDlHelpers.Combine)
-                        {
-                            list_Items.Items[indx].SubItems[6].Text = combineid.ToString();
-                        }
-                        DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
-                        TubeDlHelpers.ldf.Add(d);
-
-                        Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
-                        {
-                            list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
-                        });
-
-                        d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
-                        d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
-                        d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
-                        d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
+                        list_Items.Items[indx].SubItems.Add("");
                     }
+                    list_Items.Items[indx].SubItems[5].Text = DateTime.Now.ToString();
+                    if (TubeDlHelpers.Combine)
+                    {
+                        list_Items.Items[indx].SubItems[6].Text = combineid.ToString();
+                    }
+                    DownloadHelper.downloadFile d = new DownloadHelper.downloadFile(link, Path.Combine(path_, vname));
+                    TubeDlHelpers.ldf.Add(d);
+
+                    Action<int, int, object> act1 = new Action<int, int, object>(delegate (int idx, int sidx, object obj)
+                    {
+                        list_Items.Invoke(new Action(() => list_Items.Items[idx].SubItems[sidx].Text = obj.ToString()));
+                    });
+
+                    d.eSize += (object s1, string size) => act1.Invoke(indx, 1, size);
+                    d.eDownloadedSize += (object s1, string size) => act1.Invoke(indx, 2, size);
+                    d.eSpeed += (object s1, string size) => act1.Invoke(indx, 3, size);
+                    d.eDownloadState += (object s1, string size) => act1.Invoke(indx, 4, size);
                 }
+
             }
             catch (Exception ex)
             {
@@ -766,6 +748,12 @@ namespace TubeDl
         private void Process_Exited(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var msg = new MsgBox("Already exist in \r\nReplace file in destination ? ", Text, "Replace", "Add duplicate", DialogResult.Yes, DialogResult.No);
+            msg.ShowDialog();
         }
     }
 }

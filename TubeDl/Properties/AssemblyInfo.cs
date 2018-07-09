@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Unknown Devt")]
 [assembly: AssemblyProduct("Unknown Devt TubeDl")]
-[assembly: AssemblyCopyright("Copyright ©  2018 Unkdevt")]
+[assembly: AssemblyCopyright("Copyright © 2018 Unkdevt")]
 [assembly: AssemblyTrademark("beta2")]
 [assembly: AssemblyCulture("")]
 
