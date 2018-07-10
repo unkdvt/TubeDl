@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using YoutubeExtractor;
 using Unkdevt;
+using System.Text;
+
 namespace TubeDl
 {
     public partial class frmMain : Form
@@ -156,7 +158,7 @@ namespace TubeDl
             catch (Exception e)
             {
 #if DEBUG
-                //  MessageBox.Show(e.Message);
+                //      MessageBox.Show(e.Message);
 #endif
             }
         }
@@ -264,7 +266,7 @@ namespace TubeDl
             catch (Exception ex)
             {
 #if DEBUG
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+                //MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
 #endif
                 /// btndownload.Enabled = true;
                 //btnPause.Enabled = false;
@@ -285,65 +287,39 @@ namespace TubeDl
         #region Events
         private void exButton1_Click(object sender, EventArgs e)
         {
-            //////try
-            //////{
-            var add = new frmAddlink();
-            switch (add.ShowDialog())
+            try
             {
-                case DialogResult.OK:
-                    if (TubeDlHelpers.Combine)
-                    {
+                var add = new frmAddlink();
+                switch (add.ShowDialog())
+                {
+                    case DialogResult.OK:
                         if (TubeDlHelpers.Custome)
-                        {
-                            Download(TubeDlHelpers.downloadurl,
-                                true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                            Download(TubeDlHelpers.downloadurl,
-                                   true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName.Replace("mp4", "mp3"));
-                            combineid++;
-                        }
+                            Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
                         else
-                        {
+                            Download(TubeDlHelpers.downloadurl);
+                        break;
 
-                            string vname = StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
-               + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + "mp4";
+                    case DialogResult.Ignore:
+                        if (TubeDlHelpers.Custome)
+                            Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
+                        else
+                            Download(TubeDlHelpers.downloadurl);
+                        TubeDlHelpers.ldf[list_Items.Items.Count - 1].CancelDownload();
+                        break;
 
-                            string aname = StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
-               + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + "mp3";
-
-                            Download(TubeDlHelpers.downloadurl,
-                              true, Path.GetDirectoryName(TubeDlHelpers.SavePath), vname);
-                            Download(TubeDlHelpers.downloadurl,
-                                   true, Path.GetDirectoryName(TubeDlHelpers.SavePath), aname);
-                            combineid++;
-                        }
-                    }
-                    else if (TubeDlHelpers.Custome)
-                        Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                    else
-                        Download(TubeDlHelpers.downloadurl);
-                    break;
-
-                case DialogResult.Ignore:
-                    if (TubeDlHelpers.Custome)
-                        Download(TubeDlHelpers.downloadurl, true, Path.GetDirectoryName(TubeDlHelpers.customSavePath), TubeDlHelpers.customeSavefileName);
-                    else
-                        Download(TubeDlHelpers.downloadurl);
-                    TubeDlHelpers.ldf[list_Items.Items.Count - 1].CancelDownload();
-                    break;
-
+                }
             }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //#if DEBUG
-            //                MessageBox.Show(ex.Message);
-
-            //#endif
-            //            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                //MessageBox.Show(ex.Message);
+#endif
+            }
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+
             nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
             label1.Text = string.Format("{0} : {1}", "Default Download Location", TubeDlHelpers.savePath);
             backgroundWorker1.RunWorkerAsync();
@@ -521,33 +497,34 @@ namespace TubeDl
 
         private void deletePermenatlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            // foreach (ListViewItem l in list_Items.SelectedItems)
-            if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed" || list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
+            try
             {
-                if (MessageBox.Show("Are you sure, Do you want to move this file into recycle bin?", Text,
-                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                {
-                    try
+                foreach (ListViewItem l in list_Items.SelectedItems)
+                    if (list_Items.SelectedItems[0].SubItems[4].Text == "Completed" || list_Items.SelectedItems[0].SubItems[4].Text == "Paused")
                     {
-                        FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text)
-                            , UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.ThrowException);
-                        //  File.Delete(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text));
-                        TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
-                        list_Items.SelectedItems[0].Remove();
+                        if (MessageBox.Show("Are you sure, Do you want to move this file into recycle bin?", Text,
+                                 MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                FileSystem.DeleteFile(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text)
+                                    , UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.ThrowException);
+                                File.Delete(Path.Combine(path_, list_Items.SelectedItems[0].SubItems[0].Text));
+                                TubeDlHelpers.ldf.RemoveAt(list_Items.SelectedItems[0].Index);
+                                list_Items.SelectedItems[0].Remove();
 
+                            }
+                            catch { }
+                        }
                     }
-                    catch { }
-                }
+                Updatelist();
             }
-            Updatelist();
-            //}
-            //catch { }
+            catch { }
         }
 
         private void btnStopDownload_Click(object sender, EventArgs e)
         {
+
             //try
             //{
             //    foreach (ListViewItem l in list_Items.Items)
@@ -746,6 +723,8 @@ namespace TubeDl
             //    MessageBox.Show(ex.Message);
             //}
         }
+
+
         private void Process_Exited(object sender, EventArgs e)
         {
 
@@ -761,6 +740,12 @@ namespace TubeDl
         {
             toolTip1.SetToolTip(this.list_Items, e.Item.Text);
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            PlaylistScrap.videoList("RDzoUBv75BC0I");
+            richTextBox1.Text = PlaylistScrap.ListInfo.Total;
         }
     }
 }

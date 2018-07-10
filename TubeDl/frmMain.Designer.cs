@@ -57,10 +57,12 @@
             this.btnTargetFolder = new TubeDl.ExButton();
             this.btnRemove = new TubeDl.ExButton();
             this.btnDelete = new TubeDl.ExButton();
-            this.btnStopDownload = new TubeDl.ExButton();
+            this.btnSettings = new TubeDl.ExButton();
             this.btnPauseDownload = new TubeDl.ExButton();
             this.btnStartDownload = new TubeDl.ExButton();
             this.exButton1 = new TubeDl.ExButton();
+            this.button1 = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -68,7 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnStopDownload)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPauseDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exButton1)).BeginInit();
@@ -80,7 +82,7 @@
             this.panel1.Controls.Add(this.btnTargetFolder);
             this.panel1.Controls.Add(this.btnRemove);
             this.panel1.Controls.Add(this.btnDelete);
-            this.panel1.Controls.Add(this.btnStopDownload);
+            this.panel1.Controls.Add(this.btnSettings);
             this.panel1.Controls.Add(this.btnPauseDownload);
             this.panel1.Controls.Add(this.btnStartDownload);
             this.panel1.Controls.Add(this.panel2);
@@ -322,21 +324,20 @@
             this.toolTip1.SetToolTip(this.btnDelete, "Click to delete selected iteme to recycle bin");
             this.btnDelete.Click += new System.EventHandler(this.deletePermenatlyToolStripMenuItem_Click);
             // 
-            // btnStopDownload
+            // btnSettings
             // 
-            this.btnStopDownload.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStopDownload.Enabled = false;
-            this.btnStopDownload.Image = global::TubeDl.Properties.Resources.stop_color;
-            this.btnStopDownload.ImageDisable = global::TubeDl.Properties.Resources.stop_gray;
-            this.btnStopDownload.ImageEnable = global::TubeDl.Properties.Resources.stop_color;
-            this.btnStopDownload.Location = new System.Drawing.Point(422, 13);
-            this.btnStopDownload.Name = "btnStopDownload";
-            this.btnStopDownload.Size = new System.Drawing.Size(32, 32);
-            this.btnStopDownload.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnStopDownload.TabIndex = 18;
-            this.btnStopDownload.TabStop = false;
-            this.btnStopDownload.Visible = false;
-            this.btnStopDownload.Click += new System.EventHandler(this.btnStopDownload_Click);
+            this.btnSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSettings.Enabled = false;
+            this.btnSettings.Image = global::TubeDl.Properties.Resources.stop_color;
+            this.btnSettings.ImageDisable = global::TubeDl.Properties.Resources.stop_gray;
+            this.btnSettings.ImageEnable = global::TubeDl.Properties.Resources.stop_color;
+            this.btnSettings.Location = new System.Drawing.Point(779, 13);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(32, 32);
+            this.btnSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnSettings.TabIndex = 18;
+            this.btnSettings.TabStop = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnStopDownload_Click);
             // 
             // btnPauseDownload
             // 
@@ -385,11 +386,31 @@
             this.toolTip1.SetToolTip(this.exButton1, "Click to add new download");
             this.exButton1.Click += new System.EventHandler(this.exButton1_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(422, 66);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(289, 110);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(522, 287);
+            this.richTextBox1.TabIndex = 24;
+            this.richTextBox1.Text = "";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(823, 422);
+            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.list_Items);
@@ -408,7 +429,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnTargetFolder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRemove)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnDelete)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnStopDownload)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPauseDownload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnStartDownload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.exButton1)).EndInit();
@@ -429,7 +450,7 @@
         private System.Windows.Forms.Panel panel2;
         private ExButton btnStartDownload;
         private ExButton btnPauseDownload;
-        private ExButton btnStopDownload;
+        private ExButton btnSettings;
         private ExButton btnDelete;
         private ExButton btnRemove;
         private ExButton btnTargetFolder;
@@ -449,5 +470,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ColumnHeader Combine;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

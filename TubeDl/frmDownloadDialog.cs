@@ -145,9 +145,9 @@ namespace TubeDl
                         ? "Audio" : TubeDlHelpers.video.Resolution.ToString() + "p";
                     lblsize.Text = TubeDlHelpers.GetFileSize(new Uri(TubeDlHelpers.video.DownloadUrl));
                     lblaudio.Text = TubeDlHelpers.video.AudioType.ToString() + " " + TubeDlHelpers.video.AudioBitrate.ToString() + "kHz";
-                    var imgurl = "https://img.youtube.com/vi/" +
-                        url_.Replace("http://", "").Replace("https://", "").Replace("www", "").Replace("youtube.com/watch?v=", "").Trim()
-                        + "/0.jpg";
+                    var imgurl = "https://i.ytimg.com/vi/" +
+                    url_.Replace("http://", "").Replace("https://", "").Replace("www", "").Replace("youtube.com/watch?v=", "").Trim()
+                        + "/default.jpg";
                     pictureBox1.ImageLocation = imgurl;
                     string vname = Unkdevt.StringHelpers.RemoveIllegalPathCharacters(TubeDlHelpers.video.Title)
                 + " " + (TubeDlHelpers.video.Resolution == 0 ? "" : TubeDlHelpers.video.Resolution.ToString() + "p") + TubeDlHelpers.Extention();
