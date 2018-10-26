@@ -32,4 +32,4 @@ fa4d5a77bdc8551250d36e778b199a29 Newtonsoft.Json.xml
 
 ### Contacts
 * manojlakmal999@gmail.com
-* [reddit](https://www.github.com/l4km47/TubeDl
+* https://www.github.com/l4km47/TubeDl
